@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -86,4 +87,9 @@ public class Relation {
 		buf.append("] avec "+this.noeudD.getName()+"\n");
 		return buf.toString();
 	}
+=======
+
+public class Relation {
+
+>>>>>>> Premier commit
 }
