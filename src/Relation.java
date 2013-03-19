@@ -1,5 +1,4 @@
 
 public class Relation {
-	private String nom;
-
+	private String name;	
 }
