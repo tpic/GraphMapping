@@ -8,14 +8,17 @@ public class Graph {
 		this.graph = new ArrayList<Noeud>();
 	}
 	
-	public void addRelation(Noeud nTo, Relation r, String sens, Noeud nFrom){
-		nTo.addFlux(r, sens);
-		if(sens.equalsIgnoreCase(Sens.IN.toString())){
-			sens = Sens.OUT.toString();
-		} else if(sens.equalsIgnoreCase(Sens.OUT.toString())){
-			sens = Sens.IN.toString();
+	public void addRelation(Noeud nTo, Relation r, Noeud nFrom){
+		nTo.addFlux(r);
+		Sens sens = r.getSens();
+		if(r.getSens().toString().equalsIgnoreCase(Sens.IN.toString())){
+			sens = Sens.OUT;
+		} else if(r.getSens().toString().equalsIgnoreCase(Sens.OUT.toString())){
+			sens = Sens.IN;
 		}
-		nFrom.addFlux(r, sens);
+		Relation reverse = new Relation(r.getName(), nFrom, nTo, sens);
+		reverse.addAttribut(r.getMapAttribut());
+		nFrom.addFlux(reverse);
 	}
 	
 	public Noeud addNoeud(String name){
