@@ -3,17 +3,18 @@ import java.util.HashMap;
 
 public class Noeud {
 	private String name;
-	// Flux = < "in" --> [ Relation1, Relation2 ] >
-	// _____= < "out"--> [ Relation ] >
-	// _____= < "inout"> [ Relation ] >
-	private HashMap<String, ArrayList<Relation>> flux;
+	// Flux = < "in" --> [ "friends" -> [Relation1, Relation2]
+	// ____________________"share" -> Relation ] >
+	// ____ = < "out" --> [ "friends" -> [Relation1, Relation2] >
+	// _____= < "inout"> [ "friends" -> [Relation2] ] >
+	private HashMap<String, ArrayList<HashMap<String,ArrayList<Relation>>>> flux;
 
 	public Noeud(String name) {
 		this.name = name;
-		this.flux = new HashMap<String, ArrayList<Relation>>();
-		this.flux.put("IN", new ArrayList<Relation>());
-		this.flux.put("OUT", new ArrayList<Relation>());
-		this.flux.put("INOUT", new ArrayList<Relation>());
+		this.flux = new HashMap<String, ArrayList<HashMap<String,ArrayList<Relation>>>>();
+		this.flux.put("IN", new ArrayList<HashMap<String,ArrayList<Relation>>>());
+		this.flux.put("OUT", new ArrayList<HashMap<String,ArrayList<Relation>>>());
+		this.flux.put("INOUT", new ArrayList<HashMap<String,ArrayList<Relation>>>());
 	}
 
 	public String getName() {
@@ -21,28 +22,45 @@ public class Noeud {
 	}
 
 	public void addFlux(Relation r) {
-		this.flux.get(r.getSensString()).add(r);				
-	}
-	
-	public Relation getRelation(Relation r){
-		for(Relation relation : this.flux.get(r.getSens())){
-			if(relation.equals(r)){
-				return relation;
+		boolean add = false;
+		for(HashMap<String,ArrayList<Relation>> aList : this.flux.get(r.getSensString())){
+			if(aList.containsKey(r.getName())){
+				//TODO verif si ! doublon
+				aList.get(r.getName()).add(r);
+				add = true;
+				break;
 			}
+			ArrayList<Relation> l = new ArrayList<Relation>();
+			l.add(r);
+			aList.put(r.getName(), l);
+			add = true;
+			break;
 		}
-		return null;
-	}
+		if(!add){			
+			//Quand la hashmap In, Out ou Inout est vide
+			ArrayList<Relation> l = new ArrayList<Relation>();
+			l.add(r);
+			HashMap<String, ArrayList<Relation>> hm = new HashMap<String, ArrayList<Relation>>();
+			hm.put(r.getName(), l);
+			this.flux.get(r.getSensString()).add(hm);
+		}
+	}	
 	
 	public boolean equals(Noeud n){
 		return this.name.equals(n.getName());
 	}
 	
 	public String toString(){
-		StringBuffer buff = new StringBuffer(this.name);		
+		StringBuffer buff = new StringBuffer(this.name+"\n");		
 		for(String s : flux.keySet()){
 			buff.append("\t "+s+"\n");
-			for(Relation r : flux.get(s)){
-				buff.append("\t\t"+r);
+			for(HashMap<String, ArrayList<Relation>> hm : this.flux.get(s)){
+				for(String titleRelation : hm.keySet()){
+					buff.append("\t\t "+titleRelation+"\n");
+					for(Relation r : hm.get(titleRelation)){
+						buff.append("\t\t\t "+r+"\n");
+					}
+				}
 			}
 		}
 		return buff.toString();

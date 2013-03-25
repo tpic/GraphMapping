@@ -5,13 +5,11 @@ import java.util.HashMap;
 public class Relation {
 	private String name;
 	private HashMap<String,ArrayList<String>> mapAttribut;	
-	//private Noeud noeudS;
 	private Noeud noeudD;
 	private Sens sens;
 	
-	//NoeudS a DELETE
-	public Relation(String name,Noeud noeudS, Noeud noeudD, Sens sens){
-		this.name = name;
+	public Relation(String name,Noeud noeudD, Sens sens){
+		this.name = name.toLowerCase();
 		this.mapAttribut = new HashMap<String,ArrayList<String>>();
 		this.noeudD = noeudD;
 		this.sens = sens;
@@ -20,10 +18,6 @@ public class Relation {
 	public String getName() {
 		return name;
 	}
-
-	/*public Noeud getNoeudSource() {
-		return noeudS;
-	}*/
 	
 	public Noeud getNoeudDestination() {
 		return noeudD;
@@ -42,13 +36,14 @@ public class Relation {
 	}
 
 	public void addAttribut(String nameAttribut, String valueAttribut){
-		if(this.mapAttribut.containsValue(nameAttribut)){
+		String name = nameAttribut.toLowerCase();
+		if(this.mapAttribut.containsKey(name)){
 			//TODO voir fusion intelligente
-			this.mapAttribut.get(nameAttribut).add(valueAttribut);
+			this.mapAttribut.get(name).add(valueAttribut);
 		} else {
 			ArrayList<String> arrAtt = new ArrayList<String>();
 			arrAtt.add(valueAttribut);
-			this.mapAttribut.put(nameAttribut, arrAtt);
+			this.mapAttribut.put(name, arrAtt);
 		}
 	}
 	
@@ -71,15 +66,13 @@ public class Relation {
 	}
 	
 	public String toString(){		
-		//StringBuffer buf = new StringBuffer(this.noeudS.getName());
 		StringBuffer buf = new StringBuffer();
-		//buf.append(" -- "); 
 		buf.append(this.name);
 		buf.append(" : ");
 		for(String s: this.mapAttribut.keySet()){
 			buf.append(s+" -> '");
 			for(String string: this.mapAttribut.get(s)){
-				buf.append(string);
+				buf.append(string+" ");
 			}
 			buf.append("', ");
 		}
