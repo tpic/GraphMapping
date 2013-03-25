@@ -3,7 +3,7 @@ import java.util.HashMap;
 
 public class Relation {
 	private String name;
-	private HashMap<String,String> mapAttribut;
+	private HashMap<String,String> mapAttribut; //String -> ArrayList<String> pour le share=[.,..,..]	
 	private Noeud noeud;
 	
 	public Relation(String name,Noeud noeudRelation){

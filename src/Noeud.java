@@ -22,6 +22,7 @@ public class Noeud {
 
 	public void addFluxEntrant(Relation r) {
 		if (this.fluxEntrant.containsKey(r.getName())) {
+			//if aList.contains(r); redefinition methode equals de relation		
 			this.fluxEntrant.get(r.getName()).add(r);
 		} else {
 			ArrayList<Relation> aList = new ArrayList<Relation>();
