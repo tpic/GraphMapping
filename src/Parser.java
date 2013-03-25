@@ -14,10 +14,24 @@ public class Parser {
 	
 	private static ArrayList<String> lines = new ArrayList<String>();
 	private static ArrayList<String> wrongLines = new ArrayList<String>();
+	private static ArrayList<ArrayList<String>> res = new ArrayList<ArrayList<String>>();
 	
 	/**
-	 * Teste la validité du fichier avec une regex, les lignes valides sont ajoutés à l'ArrayList lines
+	 * Teste la validité de la ligne avec une regex, les lignes valides sont ajoutéés à l'ArrayList lines
 	 * et les autres dans l'ArrayList wrongLines
+	 * @param ligne
+	 */
+	public static void verifLigne(String ligne){
+		//Test validité de la ligne
+		if(Pattern.matches("(\\w+[éèêàôïu]*\\s?)+<?--\\s?\\w+[éèêàôïu]*\\s?(\\[\\s?(\\w+[éèêàôïu]*\\s?=\\s?((\\w+[éèêàôïu]*\\s?)+|(\\[\\s?(\\w+[éèêàôïu]*\\s?,\\s?)+\\w+[éèêàôïu]*\\s?\\])))(,\\s?(\\w+[éèêàôïu]*\\s?=\\s?((\\w+[éèêàôïu]*\\s?)+|(\\[\\s?(\\w+[éèêàôïu]*\\s?,\\s?)+\\w+[éèêàôïu]*\\s?\\]))))*\\s?\\])?\\s?-->?\\s?(\\w+[éèêàôïu]*\\s?)+",ligne)){
+			lines.add(ligne);
+		}else{
+			wrongLines.add(ligne);
+		}		
+	}
+	
+	/**
+	 * Lecture du fichier en paramètre et appel de la méthode verifLigne sur chaque ligne 
 	 * @param file : le fichier à tester
 	 */
 	public static void verifFichier(File file){
@@ -27,12 +41,7 @@ public class Parser {
 		try {
 			BufferedReader br = new BufferedReader(new FileReader(file));
 			while((ligne = br.readLine()) != null){
-				//Test validité de la ligne
-				if(Pattern.matches("(\\w+\\s?)+<?--\\s?\\w+\\s?(\\[\\s?(\\w+\\s?=\\s?((\\w+\\s?)+|(\\[\\s?(\\w+\\s?,\\s?)+\\w+\\s?\\])))(,\\s?(\\w+\\s?=\\s?((\\w+\\s?)+|(\\[\\s?(\\w+\\s?,\\s?)+\\w+\\s?\\]))))*\\s?\\])?\\s?-->?\\s?(\\w+\\s?)+",ligne)){
-					lines.add(ligne);
-				}else{
-					wrongLines.add(ligne);
-				}
+				verifLigne(ligne);
 			}
 			
 			br.close();
@@ -147,13 +156,13 @@ public class Parser {
 		try {
 			
 			verifFichier(file);
-			ArrayList<ArrayList<String>> s = new ArrayList<ArrayList<String>>();
+			
 			
 			for (String l : lines) {
-				s.add(splitLines(l));
+				res.add(splitLines(l));
 			}
 			
-			for(ArrayList<String> test : s){
+			for(ArrayList<String> test : res){
 				for(String t : test){
 					System.out.println(t);
 				}
