@@ -7,43 +7,32 @@ import java.util.ArrayList;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
-
 
 public class Parser {
 	
-	private static ArrayList<String> lines = new ArrayList<String>();
-	private static ArrayList<String> wrongLines = new ArrayList<String>();
-	private static ArrayList<ArrayList<String>> res = new ArrayList<ArrayList<String>>();
+	private Graph g = new Graph();
 	
-	/**
-	 * Teste la validité de la ligne avec une regex, les lignes valides sont ajoutéés à l'ArrayList lines
-	 * et les autres dans l'ArrayList wrongLines
-	 * @param ligne
-	 */
-	public static void verifLigne(String ligne){
-		//Test validité de la ligne
-		if(Pattern.matches("(\\w+[éèêàôïü]*\\s?)+<?--\\s?\\w+[éèêàôïü]*\\s?(\\[\\s?(\\w+[éèêàôïü]*\\s?=\\s?((\\w+[éèêàôïü]*\\s?)+|(\\[\\s?(\\w+[éèêàôïü]*\\s?,\\s?)+\\w+[éèêàôïü]*\\s?\\])))(,\\s?(\\w+[éèêàôïü]*\\s?=\\s?((\\w+[éèêàôïü]*\\s?)+|(\\[\\s?(\\w+[éèêàôïü]*\\s?,\\s?)+\\w+[éèêàôïü]*\\s?\\]))))*\\s?\\])?\\s?-->?\\s?(\\w+[éèêàôïü]*\\s?)+",ligne)){
-			lines.add(ligne);
-		}else{
-			wrongLines.add(ligne);
-		}		
+	public Parser(Graph g){
+		this.g = g;
 	}
 	
 	/**
 	 * Lecture du fichier en paramètre et appel de la méthode verifLigne sur chaque ligne 
 	 * @param file : le fichier à tester
 	 */
-	public static void verifFichier(File file){
+	public void verifFichier(String nomFichier){
 		
 		String ligne = "";
 		
 		try {
-			BufferedReader br = new BufferedReader(new FileReader(file));
+			BufferedReader br = new BufferedReader(new FileReader(new File(nomFichier)));
 			while((ligne = br.readLine()) != null){
-				verifLigne(ligne);
+				if(verifLigne(ligne)){
+					splitLines(ligne);
+				}else{
+					System.out.println(ligne);
+				}
 			}
-			
 			br.close();
 			
 		} catch(FileNotFoundException e) {
@@ -52,6 +41,16 @@ public class Parser {
 			e.printStackTrace();
 		}
 		
+	}
+	
+	/**
+	 * Teste la validité de la ligne avec une regex, les lignes valides sont ajoutéés à l'ArrayList lines
+	 * et les autres dans l'ArrayList wrongLines
+	 * @param ligne
+	 */
+	public boolean verifLigne(String ligne){
+		//Test validité de la ligne
+		return Pattern.matches("(\\w+[éèêàôïü]*\\s?)+<?--\\s?\\w+[éèêàôïü]*\\s?(\\[\\s?(\\w+[éèêàôïü]*\\s?=\\s?((\\w+[éèêàôïü]*\\s?)+|(\\[\\s?(\\w+[éèêàôïü]*\\s?,\\s?)+\\w+[éèêàôïü]*\\s?\\])))(,\\s?(\\w+[éèêàôïü]*\\s?=\\s?((\\w+[éèêàôïü]*\\s?)+|(\\[\\s?(\\w+[éèêàôïü]*\\s?,\\s?)+\\w+[éèêàôïü]*\\s?\\]))))*\\s?\\])?\\s?-->?\\s?(\\w+[éèêàôïü]*\\s?)+",ligne);		
 	}
 	
 	
@@ -67,15 +66,15 @@ public class Parser {
 	 * @param l la ligne traitée
 	 * @return La ligne découpée dans une ArrayList
 	 */
-	public static ArrayList<String> splitLines(String l){
+	public void splitLines(String l){
 		
 		ArrayList<String> splitedLine = new ArrayList<String>();
 		String attributs = "";
 		
 		/*
-		 * typeRelation = in      ->  Relation entrante du type      Noeud1<--relation--Noeud2
-		 * typeRelation = out     ->  Relation sortante du type      Noeud1--relation-->Noeud2
-		 * typeRelation = inout    ->  Relation reciproque du type    Noeud1<--relation-->Noeud2 ou Noeud1--relation--Noeud2 
+		 * typeRelation = in      ->  Relation entrante :      Noeud1<--relation--Noeud2
+		 * typeRelation = out     ->  Relation sortante :      Noeud1--relation-->Noeud2
+		 * typeRelation = inout    ->  Relation reciproque :   Noeud1<--relation-->Noeud2 ou Noeud1--relation--Noeud2 
 		 */
 		String typeRelation = "inout";
 		
@@ -107,7 +106,7 @@ public class Parser {
 			attributs = tab[1].substring(nb+1, tab[1].indexOf("]", tab[1].length()-1));
 		}
 		
-		//Booleen permettant de tester si on a atteind la fin du parcourt des attributs
+		//Booleen permettant de tester si on a atteind la fin du parcours des attributs
 		Boolean b = false;
 		
 		// On parcourt la chaine de caractère contenant tout les attributs et leurs valeurs
@@ -139,47 +138,28 @@ public class Parser {
 			splitedLine.add(name);
 			splitedLine.add(value);
 			
-			// Si !b alors on supprime l'attribut traité de la chaine de caracères
+			// Si !b alors on supprime l'attribut traité de la chaine de caractères
 			if(!b) attributs = attributs.substring(fin+1);
 			else attributs = "";
 		}
-		
-		return splitedLine;
+		addGraph(splitedLine);
 	}
- 
 	
-	public static void main(String[] args) {
-		
-		File file = new File("donnees.txt");
-		
-		try {
-			
-			verifFichier(file);
-			
-			
-			for (String l : lines) {
-				res.add(splitLines(l));
-			}
-			
-			/*
-			for(ArrayList<String> test : res){
-				for(String t : test){
-					System.out.println(t);
-				}
-				System.out.println("**************");
-			}
-			
-			System.out.println("--------------------------------");
-			
-			for(String test : wrongLines){
-				System.out.println(test);
-			}
-			*/
-						
-			
-		} catch (PatternSyntaxException e){
-			e.printStackTrace();
+	public void addGraph(ArrayList<String> splitedLine){
+		Noeud n1 = g.addOrGetNoeud(splitedLine.get(1));
+		Noeud n2 = g.addOrGetNoeud(splitedLine.get(2));
+		Sens sens = Sens.INOUT;
+		if(splitedLine.get(0).equalsIgnoreCase(Sens.IN.toString())){
+			sens = Sens.IN;
+		} else if(splitedLine.get(0).equalsIgnoreCase(Sens.OUT.toString())){
+			sens = Sens.OUT;
 		}
+		Relation r = new Relation(splitedLine.get(3), n2, sens);
+		for(int i = 4 ; i < splitedLine.size() ; i+=2){
+			r.addAttribut(splitedLine.get(i), splitedLine.get(i+1));
+		}
+		g.addRelation(n1, r, n2);
+		
 	}
 
 }
