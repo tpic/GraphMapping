@@ -23,7 +23,7 @@ public class Parser {
 	 */
 	public static void verifLigne(String ligne){
 		//Test validité de la ligne
-		if(Pattern.matches("(\\w+[éèêàôïu]*\\s?)+<?--\\s?\\w+[éèêàôïu]*\\s?(\\[\\s?(\\w+[éèêàôïu]*\\s?=\\s?((\\w+[éèêàôïu]*\\s?)+|(\\[\\s?(\\w+[éèêàôïu]*\\s?,\\s?)+\\w+[éèêàôïu]*\\s?\\])))(,\\s?(\\w+[éèêàôïu]*\\s?=\\s?((\\w+[éèêàôïu]*\\s?)+|(\\[\\s?(\\w+[éèêàôïu]*\\s?,\\s?)+\\w+[éèêàôïu]*\\s?\\]))))*\\s?\\])?\\s?-->?\\s?(\\w+[éèêàôïu]*\\s?)+",ligne)){
+		if(Pattern.matches("(\\w+[éèêàôïü]*\\s?)+<?--\\s?\\w+[éèêàôïü]*\\s?(\\[\\s?(\\w+[éèêàôïü]*\\s?=\\s?((\\w+[éèêàôïü]*\\s?)+|(\\[\\s?(\\w+[éèêàôïü]*\\s?,\\s?)+\\w+[éèêàôïü]*\\s?\\])))(,\\s?(\\w+[éèêàôïü]*\\s?=\\s?((\\w+[éèêàôïü]*\\s?)+|(\\[\\s?(\\w+[éèêàôïü]*\\s?,\\s?)+\\w+[éèêàôïü]*\\s?\\]))))*\\s?\\])?\\s?-->?\\s?(\\w+[éèêàôïü]*\\s?)+",ligne)){
 			lines.add(ligne);
 		}else{
 			wrongLines.add(ligne);
@@ -57,7 +57,7 @@ public class Parser {
 	
 	/**
 	 * Découpe chaque ligne et ajoute chaque élément dans une ArrayList :
-	 * 1. Type de relation (none, in, out, both)
+	 * 1. Type de relation (in, out, inout)
 	 * 2. Noeud de départ
 	 * 3. Noeud d'arrivé
 	 * 4. Relation
@@ -73,12 +73,11 @@ public class Parser {
 		String attributs = "";
 		
 		/*
-		 * typeRelation = none    ->  Aucun sens dans la relation    Noeud1--relation--Noeud2
 		 * typeRelation = in      ->  Relation entrante du type      Noeud1<--relation--Noeud2
 		 * typeRelation = out     ->  Relation sortante du type      Noeud1--relation-->Noeud2
-		 * typeRelation = both    ->  Relation reciproque du type    Noeud1<--relation-->Noeud2
+		 * typeRelation = inout    ->  Relation reciproque du type    Noeud1<--relation-->Noeud2 ou Noeud1--relation--Noeud2 
 		 */
-		String typeRelation = "none";
+		String typeRelation = "inout";
 		
 		// Premier split selon les tirets (--)
 		String[] tab = l.split("--");
@@ -90,7 +89,7 @@ public class Parser {
 		}
 		// On recupère le deuxième noeud et on verifie le type de relation
 		if(tab[2].charAt(0) == '>'){
-			if(typeRelation.compareTo("in") == 0) typeRelation = "both";
+			if(typeRelation.compareTo("in") == 0) typeRelation = "inout";
 			else typeRelation = "out";
 			tab[2] = tab[2].substring(1);
 		}
@@ -162,6 +161,7 @@ public class Parser {
 				res.add(splitLines(l));
 			}
 			
+			/*
 			for(ArrayList<String> test : res){
 				for(String t : test){
 					System.out.println(t);
@@ -174,6 +174,7 @@ public class Parser {
 			for(String test : wrongLines){
 				System.out.println(test);
 			}
+			*/
 						
 			
 		} catch (PatternSyntaxException e){
