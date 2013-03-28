@@ -3,6 +3,7 @@ Barbara--friend[since=2011]-->Anna
 Barbara--friend[since=1989, share=[books, movies, tweets]]-->Elizabeth
 Barbara--employee_of[role=architect, hired=Feb 04]-->BigCo
 Barbara--likes-->NoSQL Distilled
+Bernard--likes-->NoSQL Distilled
 Barbara--likes-->Refactoring
 Anna--likes-->Refactoring
 Anna--employee_of[role=developer, hired=Mar 06]-->BigCo
