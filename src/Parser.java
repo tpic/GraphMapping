@@ -7,8 +7,6 @@ import java.util.ArrayList;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
-
 
 public class Parser {
 	
