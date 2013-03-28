@@ -11,9 +11,9 @@ public class Tests {
 		System.out.println(g);
 		// Recherche.parcoursManuel(g, "BarBara");
 		ArrayList<String> liens = new ArrayList<String>();
-		liens.add("likes");
+		liens.add("author");
 		liens.add("friend");
 
-		Recherche.parcours(g, "NoSQL Distilled", "profondeur", liens, 3);
+		Recherche.parcours(g, "NoSQL Distilled", "profondeur", "", liens, 1);
 	}
 }
