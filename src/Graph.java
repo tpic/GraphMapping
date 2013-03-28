@@ -8,6 +8,8 @@ public class Graph {
 	}
 
 	public void addRelation(Noeud nFrom, Relation r, Noeud nTo) {
+		// TODO doublon
+
 		nFrom.addFlux(r);
 		Sens sens = r.getSens();
 		if (r.getSens().toString().equalsIgnoreCase(Sens.IN.toString())) {

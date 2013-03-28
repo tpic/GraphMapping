@@ -29,7 +29,6 @@ public class Noeud {
 		for (HashMap<String, ArrayList<Relation>> aList : this.flux.get(r
 				.getSensString())) {
 			if (aList.containsKey(r.getName())) {
-				// TODO verif si ! doublon
 				aList.get(r.getName()).add(r);
 				add = true;
 				break;
@@ -48,6 +47,21 @@ public class Noeud {
 			hm.put(r.getName(), l);
 			this.flux.get(r.getSensString()).add(hm);
 		}
+	}
+
+	public boolean verifDoublon(Noeud n, Relation r) {
+		for (HashMap<String, ArrayList<Relation>> hm : this.flux.get(r
+				.getSens().toString())) {
+			for (String titleRelation : hm.keySet()) {
+				if (titleRelation.equalsIgnoreCase(r.getName())) {
+					// for() dans l'arraylist avant
+					if (hm.get(titleRelation).equals(r)) {
+						return true;
+					}
+				}
+			}
+		}
+		return false;
 	}
 
 	public boolean equals(Noeud n) {
