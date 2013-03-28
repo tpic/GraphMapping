@@ -68,7 +68,7 @@ public class Relation {
 	public String toString(){		
 		StringBuffer buf = new StringBuffer();
 		buf.append(this.name);
-		buf.append(" : ");
+		buf.append(" : [");
 		for(String s: this.mapAttribut.keySet()){
 			buf.append(s+" -> '");
 			for(String string: this.mapAttribut.get(s)){
