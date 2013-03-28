@@ -25,39 +25,43 @@ public class Noeud {
 	}
 
 	public void addFlux(Relation r) {
-		boolean add = false;
-		for (HashMap<String, ArrayList<Relation>> aList : this.flux.get(r
-				.getSensString())) {
-			if (aList.containsKey(r.getName())) {
-				aList.get(r.getName()).add(r);
+		if (!verifDoublon(r)) {
+			boolean add = false;
+			for (HashMap<String, ArrayList<Relation>> aList : this.flux.get(r
+					.getSensString())) {
+				if (aList.containsKey(r.getName())) {
+					aList.get(r.getName()).add(r);
+					add = true;
+					break;
+				}
+				ArrayList<Relation> l = new ArrayList<Relation>();
+				l.add(r);
+				aList.put(r.getName(), l);
 				add = true;
 				break;
 			}
-			ArrayList<Relation> l = new ArrayList<Relation>();
-			l.add(r);
-			aList.put(r.getName(), l);
-			add = true;
-			break;
-		}
-		if (!add) {
-			// Quand la hashmap In, Out ou Inout est vide
-			ArrayList<Relation> l = new ArrayList<Relation>();
-			l.add(r);
-			HashMap<String, ArrayList<Relation>> hm = new HashMap<String, ArrayList<Relation>>();
-			hm.put(r.getName(), l);
-			this.flux.get(r.getSensString()).add(hm);
+			if (!add) {
+				// Quand la hashmap In, Out ou Inout est vide
+				ArrayList<Relation> l = new ArrayList<Relation>();
+				l.add(r);
+				HashMap<String, ArrayList<Relation>> hm = new HashMap<String, ArrayList<Relation>>();
+				hm.put(r.getName(), l);
+				this.flux.get(r.getSensString()).add(hm);
+			}
 		}
 	}
 
-	public boolean verifDoublon(Noeud n, Relation r) {
+	public boolean verifDoublon(Relation r) {
 		for (HashMap<String, ArrayList<Relation>> hm : this.flux.get(r
 				.getSens().toString())) {
 			for (String titleRelation : hm.keySet()) {
 				if (titleRelation.equalsIgnoreCase(r.getName())) {
-					// for() dans l'arraylist avant
-					if (hm.get(titleRelation).equals(r)) {
-						return true;
+					for (Relation relation : hm.get(titleRelation)) {
+						if (relation.equals(r)) {
+							return true;
+						}
 					}
+
 				}
 			}
 		}
