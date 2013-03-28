@@ -7,7 +7,7 @@ public class Tests {
 		p.verifFichier("donnees.txt");
 
 		System.out.println(g);
-		Recherche.parcours(g);
+		Recherche.parcours(g, "BarBara");
 	}
 
 }
