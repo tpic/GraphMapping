@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -130,9 +129,4 @@ public class Noeud {
 		}
 		return buff.toString();
 	}
-=======
-
-public class Noeud {
-
->>>>>>> Premier commit
 }
