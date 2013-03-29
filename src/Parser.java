@@ -1,5 +1,3 @@
-package sources;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -7,6 +5,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.regex.Pattern;
+
 
 public class Parser {
 
@@ -28,8 +27,7 @@ public class Parser {
 		String ligne = "";
 
 		try {
-			BufferedReader br = new BufferedReader(new FileReader(new File(
-					nomFichier)));
+			BufferedReader br = new BufferedReader(new FileReader(new File(nomFichier)));
 			while ((ligne = br.readLine()) != null) {
 				if (verifLigne(ligne)) {
 					splitLines(ligne);
@@ -113,8 +111,7 @@ public class Parser {
 			splitedLine.add(tab[1]); // Si la relation est sans attributs
 		else {
 			splitedLine.add(tab[1].substring(0, nb));
-			attributs = tab[1].substring(nb + 1,
-					tab[1].indexOf("]", tab[1].length() - 1));
+			attributs = tab[1].substring(nb + 1, tab[1].indexOf("]", tab[1].length() - 1));
 		}
 
 		// Booleen permettant de tester si on a atteind la fin du parcours des
