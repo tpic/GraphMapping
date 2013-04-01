@@ -105,7 +105,7 @@ public class Recherche {
 				if (niveau != 0) {
 					if (!nomNoeuds.contains(r.getNoeudDestination())) {
 						nomNoeuds.add(r.getNoeudDestination());
-						// System.out.println(r.getNoeudDestination().getName());
+						System.out.println(r.getNoeudDestination().getName());
 					}
 				}
 			}
@@ -117,6 +117,7 @@ public class Recherche {
 		while (i < nomNoeuds.size()) {
 			parcoursLargeur(nomNoeuds.get(i), liens, niveauMax, niveau, nomNoeuds);
 			i++;
+			niveau++;
 		}
 	}
 
