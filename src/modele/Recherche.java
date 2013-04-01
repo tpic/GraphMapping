@@ -4,12 +4,14 @@ import java.util.Scanner;
 
 public class Recherche {
 
-	public static void parcours(Graph g, String nomNoeudDep, String mode, String sens,
+	public static ArrayList<String> parcours(Graph g, String nomNoeudDep, String mode, String sens,
 			ArrayList<String> liens, int niveauMax) {
+		// ArrayList résultat pour les tests unitaires
+		ArrayList<String> res = new ArrayList<String>();
 		Noeud noeudDep = g.getNoeud(nomNoeudDep);
 		if (noeudDep != null) {
-			ArrayList<String> listNomNoeud = new ArrayList<>();
-			ArrayList<Noeud> listNoeuds = new ArrayList<>();
+			ArrayList<String> listNomNoeud = new ArrayList<String>();
+			ArrayList<Noeud> listNoeuds = new ArrayList<Noeud>();
 			System.out.print("Noeud de depart : " + noeudDep.getName() + ", recherche : " + mode
 					+ " sens : '" + sens + "' lien(s) : ");
 			for (String lien : liens) {
@@ -17,7 +19,7 @@ public class Recherche {
 			}
 			System.out.println("niveau max : " + niveauMax);
 			int niveau = 0;
-			ArrayList<Relation> listRelations = null;
+			ArrayList<Relation> listRelations = null;  
 			if (sens.equals("<")) {
 				listRelations = noeudDep.getFluxEntrant();
 			} else if (sens.equals(">")) {
@@ -55,6 +57,8 @@ public class Recherche {
 				// unitaire
 				for (String s : listNomNoeud) {
 					System.out.println(s);
+					// Ajout du résultat à l'ArrayList pour les tests unitaires
+					res.add(s);
 				}
 			}
 			if (!donnee) {
@@ -63,6 +67,7 @@ public class Recherche {
 		} else {
 			System.out.println("Noeud " + nomNoeudDep + " inconnu");
 		}
+		return res;
 	}
 
 	private static void parcoursProfondeur(Noeud noeud, ArrayList<String> liens, int niveauMax,
@@ -124,7 +129,7 @@ public class Recherche {
 				System.out.println(n.getName() + " relations sortantes : ");
 				System.out.println("\t0 : quitter");
 				int indRelation = 0;
-				ArrayList<String> listeNomRelation = new ArrayList<>();
+				ArrayList<String> listeNomRelation = new ArrayList<String>();
 				for (Relation r : listRelation) {
 					if (!listeNomRelation.contains(r.getName())) {
 						indRelation++;

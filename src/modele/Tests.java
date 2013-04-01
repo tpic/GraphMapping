@@ -11,11 +11,11 @@ public class Tests {
 		p.verifFichier("donnees.txt");
 
 		System.out.println(g);
-		Recherche.parcoursManuel(g, "BarBara");
+		//Recherche.parcoursManuel(g, "BarBara");
 		ArrayList<String> liens = new ArrayList<String>();
 		liens.add("likes");
 		liens.add("friend");
 
-		Recherche.parcours(g, "NoSQL Distilled", "largeur", "", liens, 3);
+		Recherche.parcours(g, "NoSQL Distilled", "longueur", "", liens, 3);
 	}
 }
