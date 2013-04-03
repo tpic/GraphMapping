@@ -16,6 +16,6 @@ public class Tests {
 		liens.add("likes");
 		liens.add("friend");
 
-		Recherche.parcours(g, "NoSQL Distilled", "largeur", "", liens, 3);
+		Recherche.parcours(g, "NoSQL Distilled", "longueur", "", liens, 3);
 	}
 }
