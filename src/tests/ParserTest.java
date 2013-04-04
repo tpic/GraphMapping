@@ -1,12 +1,10 @@
 package tests;
 
 import static org.junit.Assert.assertEquals;
-
 import modele.Graph;
 import modele.Parser;
 
 import org.junit.Test;
-
 
 public class ParserTest {
 
@@ -80,6 +78,12 @@ public class ParserTest {
 	public void testVerifLigne9() {
 		System.out.println("OK : verifLigne9 -> relation reciproque v2");
 		assertEquals(true, p.verifLigne("Barbara--friend[since=1999]--Carol"));
+	}
+
+	@Test
+	public void testVerifLigne10() {
+		System.out.println("OK : verifLigne10 -> accents");
+		assertEquals(true, p.verifLigne("Rémi--frère-->Jérôme"));
 	}
 
 }

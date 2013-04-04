@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.regex.Pattern;
 
-
 public class Parser {
 
 	private Graph g = new Graph();
@@ -21,7 +20,7 @@ public class Parser {
 	 * Lecture du fichier en paramètre et appel de la méthode verifLigne sur
 	 * chaque ligne
 	 * 
-	 * @param file
+	 * @param nomFichier
 	 *            : le fichier à tester
 	 */
 	public void verifFichier(String nomFichier) {
