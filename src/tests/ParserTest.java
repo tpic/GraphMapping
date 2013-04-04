@@ -83,7 +83,68 @@ public class ParserTest {
 	@Test
 	public void testVerifLigne10() {
 		System.out.println("OK : verifLigne10 -> accents");
-		assertEquals(true, p.verifLigne("Rémi--frère-->Jérôme"));
+		assertEquals(true, p.verifLigne("Rémi--frere-->Jérôme"));
+	}
+	
+	@Test
+	public void testVerifLigne11() {
+		System.out.println("NOT OK : verifLigne11 -> deux points a la place de égal");
+		assertEquals(false, p.verifLigne("Anthony--likes[version=[films VF, films VO, films VOSTFr], type:[action, comedy]]-->cinema"));
 	}
 
+	
+	@Test
+	public void testVerifLigne12() {
+		System.out.println("NOT OK : verifLigne12 -> rien apres la virgule");
+		assertEquals(false, p.verifLigne("Marianne<--friend[since=2011, share[musik, books, ]-->Thomas"));
+	}
+	
+	@Test
+	public void testVerifLigne13() {
+		System.out.println("NOT OK : verifLigne13 -> guillemets");
+		assertEquals(false, p.verifLigne("Thomas--employee_of[role=developer, hired=Mar 13\"]-->Bull"));
+	}
+	
+	@Test
+	public void testVerifLigne14() {
+		System.out.println("NOT OK : verifLigne14 -> rien dans les crochets");
+		assertEquals(false, p.verifLigne("TopChef--category[]-->TV"));
+	}
+	
+	@Test
+	public void testVerifLigne15() {
+		System.out.println("NOT OK : verifLigne15 -> rien apres egal ");
+		assertEquals(false, p.verifLigne("Florence--friend[since=2011, share=]-->Marianne"));
+	}
+	
+	@Test
+	public void testVerifLigne16() {
+		System.out.println("NOT OK : verifLigne16 -> seulement un trait dans la flèche ");
+		assertEquals(false, p.verifLigne("Kristina--likes->Allemagne"));
+	}
+	
+	@Test
+	public void testVerifLigne17() {
+		System.out.println("NOT OK : verifLigne17 -> deux points a la place de egal ");
+		assertEquals(false, p.verifLigne("Anthony--likes[version=[films VF, films VO, films VOSTFr], type:[action, comedy]]-->cinema"));
+	}
+	
+	@Test
+	public void testVerifLigne18() {
+		System.out.println("NOT OK : verifLigne18 -> carac speciaux ");
+		assertEquals(false, p.verifLigne("Anthony--employe_of[role=project manager*, hired=mar 13]-->Orange"));
+	}
+	
+	@Test
+	public void testVerifLigne19() {
+		System.out.println("NOT OK : verifLigne19 -> espace entre les tirets du lien ");
+		assertEquals(false, p.verifLigne("Anthony<- -friend[since=2011, share=[games, fb, serie] ]-->Marianne"));
+	}
+	
+	@Test
+	public void testVerifLigne20() {
+		System.out.println("NOT OK : verifLigne20 -> rien dans les crochets ");
+		assertEquals(false, p.verifLigne("Thomas<--friend[since=2009, share=[]]-->Anthony"));
+	}
+	
 }
