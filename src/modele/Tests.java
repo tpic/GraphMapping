@@ -11,11 +11,21 @@ public class Tests {
 		p.verifFichier("donnees.txt");
 
 		System.out.println(g);
-		//Recherche.parcoursManuel(g, "BarBara");
+		// Recherche.parcoursManuel(g, "BarBara");
 		ArrayList<String> liens = new ArrayList<String>();
-		liens.add("likes");
-		liens.add("friend");
+		/*liens.add("likes");
+		liens.add("friend");*/
+		liens.add("L");
+		liens.add("F");
+		liens.add("E");
+		ArrayList<Sens> sens = new ArrayList<Sens>();
+		/*sens.add(Sens.IN);
+		sens.add(Sens.OUT);*/
+		sens.add(Sens.INOUT);
+		sens.add(Sens.INOUT);
+		sens.add(Sens.INOUT);
 
-		Recherche.parcours(g, "NoSQL Distilled", "longueur", "", liens, 3);
+		// Recherche.parcours(g, "NoSQL Distilled", "longueur", "", liens, 3);
+		Recherche.parcoursProfondeur(g, "1", liens, sens, 2);
 	}
 }

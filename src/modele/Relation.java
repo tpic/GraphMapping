@@ -58,13 +58,21 @@ public class Relation {
 		}
 	}
 
+	public boolean estDuTypes(ArrayList<String> listLiens) {
+		for (String s : listLiens) {
+			if (this.name.equalsIgnoreCase(s)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	public HashMap<String, ArrayList<String>> getMapAttribut() {
 		return this.mapAttribut;
 	}
 
 	public boolean equals(Relation r) {
-		return name.equalsIgnoreCase(r.getName())
-				&& r.getNoeudDestination().equals(noeudD);
+		return name.equalsIgnoreCase(r.getName()) && r.getNoeudDestination().equals(noeudD);
 	}
 
 	public String toString() {
