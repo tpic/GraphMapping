@@ -1,0 +1,43 @@
+Barbara--friend[since=1999]-->Carol
+Barbara--friend[since=2011]-->Anna
+Barbara--friend[since=1989, share=[books, movies, tweets]]-->Elizabeth
+Barbara--employee_of[role=architect, hired=Feb 04]-->BigCo
+Barbara--likes-->NoSQL Distilled
+Bernard--likes-->NoSQL Distilled
+Barbara--likes-->Refactoring
+Anna--likes-->Refactoring
+Anna--employee_of[role=developer, hired=Mar 06]-->BigCo
+Carol--friend[since=2005]-->Dawn
+Carol--likes-->NoSQL Distilled
+Carol--employee_of[role=research, hired=Oct 08]-->BigCo
+Dawn--friend[since=2004]-->Jill
+Dawn--likes-->NoSQL Distilled
+Elizabeth--friend[since=1990]-->Jill
+Elizabeth--likes-->NoSQL Distilled
+Refactoring--author[release=1999]-->Martin
+NoSQL Distilled--author[release=2012]-->Martin
+NoSQL Distilled--author[release=2012]-->Pramod
+NoSQL Distilled--category-->Databases
+Martin<--friend[since=2000]-->Pramod
+Database Refactoring--author[release=2006]-->Pramod
+Database Refactoring--category-->Databases
+Marianne<--friend[since=2011, share[musik, books, ]-->Thomas
+Thomas--love[since=2007]-->Aline
+Aline--love[since=2007]-->Thomas
+Barbara--friend[since=1989, share=[books, movies, tweets]]-->Elizabeth
+Marianne--employee_of[role=designer, hired=Feb 04]-->St Amé
+Marianne--liks-->TopChef
+Barbara--likes-->Refactoring
+Thomas --study_at[since=Sept 2011, subject=IT]-->MIAGE
+Thomas--employee_of[role=developer, hired=Mar 13"]-->Bull
+Loic--friend[since=2005]-->Loic
+TopChef--category[]-->TV
+Marianne--friend[share=[study, events, books], since=2013]-->Kristina
+Kristina--friend[borrow=[cd, books], since=2013, share=[books, events, movies]]-->Florence
+Florence--friend[since=2011, share=]-->Marianne
+Florence<--friend[since=2011]-->thomas
+Kristina--likes->Allemagne
+Anthony--likes[version=[films VF, films VO, films VOSTFr], type:[action, comedy]]-->cinema
+Anthony--employe_of[role=project manager*, hired=mar 13]-->Orange
+Anthony<- -friend[since=2011, share=[games, fb, serie] ]-->Marianne
+Thomas<--friend[since=2009, share=[]]-->Anthony
