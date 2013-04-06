@@ -1,3 +1,5 @@
+package modele;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -54,6 +56,15 @@ public class Relation {
 				this.mapAttribut.put(s, map.get(s));
 			}
 		}
+	}
+
+	public boolean estDuTypes(ArrayList<String> listLiens) {
+		for (String s : listLiens) {
+			if (this.name.equalsIgnoreCase(s)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public HashMap<String, ArrayList<String>> getMapAttribut() {

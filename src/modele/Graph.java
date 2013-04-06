@@ -1,4 +1,6 @@
+package modele;
 import java.util.ArrayList;
+
 
 public class Graph {
 	private ArrayList<Noeud> graph;

@@ -1,3 +1,5 @@
+package modele;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -97,6 +99,34 @@ public class Noeud {
 		return listRelation;
 	}
 
+	public ArrayList<Relation> getAllFlux() {
+		ArrayList<Relation> listRelation = new ArrayList<Relation>();
+		for (String s : this.flux.keySet()) {
+			for (HashMap<String, ArrayList<Relation>> hm : this.flux.get(s)) {
+				for (String titleRelation : hm.keySet()) {
+					listRelation.addAll(hm.get(titleRelation));
+				}
+			}
+		}
+		return listRelation;
+	}
+
+	public ArrayList<Relation> getFlux(Sens s) {
+		ArrayList<Relation> listRelations = null;
+		switch (s) {
+		case IN:
+			listRelations = this.getFluxEntrant();
+			break;
+		case INOUT:
+			listRelations = this.getAllFlux();
+			break;
+		case OUT:
+			listRelations = this.getFluxSortant();
+			break;
+		}
+		return listRelations;
+	}
+
 	public ArrayList<Relation> getRelation(String sens, String nomRelation) {
 		ArrayList<Relation> listRelation = new ArrayList<Relation>();
 		for (HashMap<String, ArrayList<Relation>> hm : this.flux.get(sens)) {
@@ -115,8 +145,8 @@ public class Noeud {
 	}
 
 	public String toString() {
-		StringBuffer buff = new StringBuffer(this.name + "\n");
-		for (String s : flux.keySet()) {
+		StringBuffer buff = new StringBuffer(this.name); // + "\n");
+		/*for (String s : flux.keySet()) {
 			buff.append("\t " + s + "\n");
 			for (HashMap<String, ArrayList<Relation>> hm : this.flux.get(s)) {
 				for (String titleRelation : hm.keySet()) {
@@ -126,7 +156,7 @@ public class Noeud {
 					}
 				}
 			}
-		}
+		}*/
 		return buff.toString();
 	}
 }
