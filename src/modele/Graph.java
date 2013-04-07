@@ -1,6 +1,6 @@
 package modele;
-
 import java.util.ArrayList;
+
 
 public class Graph {
 	private ArrayList<Noeud> graph;
@@ -11,7 +11,14 @@ public class Graph {
 
 	public void addRelation(Noeud nFrom, Relation r, Noeud nTo) {
 		nFrom.addFlux(r);
-		Relation reverse = r.reverse(nFrom, r.getMapAttribut());
+		Sens sens = r.getSens();
+		if (r.getSens().toString().equalsIgnoreCase(Sens.IN.toString())) {
+			sens = Sens.OUT;
+		} else if (r.getSens().toString().equalsIgnoreCase(Sens.OUT.toString())) {
+			sens = Sens.IN;
+		}
+		Relation reverse = new Relation(r.getName(), nFrom, sens);
+		reverse.addAttribut(r.getMapAttribut());
 		nTo.addFlux(reverse);
 	}
 

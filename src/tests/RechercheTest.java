@@ -3,194 +3,55 @@ package tests;
 import java.util.ArrayList;
 
 import junit.framework.TestCase;
-import modele.Graph;
-import modele.Noeud;
-import modele.Parser;
-import modele.Recherche;
-import modele.Sens;
 
 public class RechercheTest extends TestCase {
 
-	private Graph g;
-	private Parser p;
+	ArrayList<String> parcoursProfondeur = new ArrayList<String>();
+	ArrayList<String> parcoursLargeur = new ArrayList<String>();
+
+	// ArrayList<String> parcoursProfondeurTest = new ArrayList<String>();
+
+	public RechercheTest() {
+
+	}
 
 	public void setUp() throws Exception {
-		g = new Graph();
-		p = new Parser(g);
-		p.verifFichier("donnees.txt");
+		/*parcoursProfondeurTest.add("Barbara");
+		parcoursProfondeurTest.add("Carol");
+		parcoursProfondeurTest.add("Dawn");
+		parcoursProfondeurTest.add("Anna");
+		parcoursProfondeurTest.add("Elizabeth");
+		parcoursProfondeurTest.add("Jill");
+		parcoursProfondeurTest.add("Bernard");*/
 	}
 
 	public void tearDown() throws Exception {
 
 	}
 
-	public void testParcoursProfondeurNoeudGLobal1() {
+	public void testParcoursProfondeur() {
+		/*Graph g = new Graph();
+		Parser p = new Parser(g);
+		p.verifFichier("donnees.txt");
 		ArrayList<String> liens = new ArrayList<String>();
 		liens.add("likes");
 		liens.add("friend");
-		ArrayList<Sens> sens = new ArrayList<Sens>();
-		sens.add(Sens.IN);
-		sens.add(Sens.OUT);
-		ArrayList<String> listNom = new ArrayList<String>();
-		listNom.add("Barbara");
-		listNom.add("Bernard");
-		listNom.add("Carol");
-		listNom.add("Dawn");
-		listNom.add("Elizabeth");
-
-		ArrayList<Noeud> listNode = Recherche.parcoursProfondeur(g, "NoSQL Distilled", liens, sens,
-				1, false);
-
-		assertEquals(listNom.size(), listNode.size());
-		for (int i = 0; i < listNode.size(); i++) {
-			assertEquals(listNom.get(i), listNode.get(i).getName());
-		}
+		assertEquals(parcoursProfondeur.size(),0);
+		parcoursProfondeur = Recherche.parcours(g, "NoSQL Distilled", "longeur", "", liens, 3);
+		assertEquals(parcoursProfondeur.size(),7);
+		assertEquals(parcoursProfondeur.get(parcoursProfondeur.size()-1),"Bernard");
+		/*Object[] tabParcours = parcoursProfondeur.toArray();
+		Object[] tabParcoursTest = parcoursProfondeurTest.toArray();
+		assertEquals(tabParcours, tabParcoursTest);*/
 	}
 
-	public void testParcoursProfondeurNoeudGLobal2() {
-		ArrayList<String> liens = new ArrayList<String>();
-		liens.add("likes");
-		liens.add("friend");
-		ArrayList<Sens> sens = new ArrayList<Sens>();
-		sens.add(Sens.IN);
-		sens.add(Sens.OUT);
-		ArrayList<String> listNom = new ArrayList<String>();
-		listNom.add("Barbara");
-		listNom.add("Carol");
-		listNom.add("Anna");
-		listNom.add("Elizabeth");
-		listNom.add("Bernard");
-		listNom.add("Dawn");
-		listNom.add("Jill");
+	public void testParcoursLargeur() {
 
-		ArrayList<Noeud> listNode = Recherche.parcoursProfondeur(g, "NoSQL Distilled", liens, sens,
-				2, false);
-
-		assertEquals(listNom.size(), listNode.size());
-		for (int i = 0; i < listNode.size(); i++) {
-			assertEquals(listNom.get(i), listNode.get(i).getName());
-
-		}
 	}
 
-	public void testParcoursProfondeurNoeudGLobal3() {
-		ArrayList<String> liens = new ArrayList<String>();
-		liens.add("likes");
-		liens.add("friend");
-		ArrayList<Sens> sens = new ArrayList<Sens>();
-		sens.add(Sens.IN);
-		sens.add(Sens.OUT);
-		ArrayList<String> listNom = new ArrayList<String>();
-		listNom.add("Barbara");
-		listNom.add("Carol");
-		listNom.add("Dawn");
-		listNom.add("Anna");
-		listNom.add("Elizabeth");
-		listNom.add("Jill");
-		listNom.add("Bernard");
-
-		ArrayList<Noeud> listNode = Recherche.parcoursProfondeur(g, "NoSQL Distilled", liens, sens,
-				3, false);
-
-		assertEquals(listNom.size(), listNode.size());
-		for (int i = 0; i < listNom.size(); i++) {
-			assertEquals(listNom.get(i), listNode.get(i).getName());
-		}
+	public static void main(String[] args) {
+		// Invoke JUnit on the class:
+		junit.textui.TestRunner.run(RechercheTest.class);
 	}
 
-	public void testParcoursProfondeurRelationGlobal1() {
-		ArrayList<String> liens = new ArrayList<String>();
-		liens.add("friend");
-		liens.add("friend");
-		ArrayList<Sens> sens = new ArrayList<Sens>();
-		sens.add(Sens.INOUT);
-		sens.add(Sens.INOUT);
-		ArrayList<String> listNom = new ArrayList<String>();
-		listNom.add("Barbara");
-		listNom.add("Carol");
-		listNom.add("Anna");
-		listNom.add("Elizabeth");
-		listNom.add("Jill");
-		listNom.add("Dawn");
-
-		ArrayList<Noeud> listNode = Recherche.parcoursProfondeur(g, "Carol", liens, sens, 0, true);
-
-		for (Noeud n : listNode) {
-			System.out.println(n);
-		}
-		assertEquals(listNom.size(), listNode.size());
-		for (int i = 0; i < listNom.size(); i++) {
-			assertEquals(listNom.get(i), listNode.get(i).getName());
-		}
-	}
-
-	public void testParcoursLargeurNoeudGLobal1() {
-		ArrayList<String> liens = new ArrayList<String>();
-		liens.add("likes");
-		liens.add("friend");
-		ArrayList<Sens> sens = new ArrayList<Sens>();
-		sens.add(Sens.IN);
-		sens.add(Sens.OUT);
-		ArrayList<String> listNom = new ArrayList<String>();
-		listNom.add("Barbara");
-		listNom.add("Bernard");
-		listNom.add("Carol");
-		listNom.add("Dawn");
-		listNom.add("Elizabeth");
-
-		ArrayList<Noeud> listNode = Recherche.parcoursLargeur(g, "NoSQL Distilled", liens, sens, 1);
-
-		assertEquals(listNom.size(), listNode.size());
-		for (int i = 0; i < listNode.size(); i++) {
-			assertEquals(listNom.get(i), listNode.get(i).getName());
-		}
-	}
-
-	public void testParcoursLargeurNoeudGLobal2() {
-		ArrayList<String> liens = new ArrayList<String>();
-		liens.add("likes");
-		liens.add("friend");
-		ArrayList<Sens> sens = new ArrayList<Sens>();
-		sens.add(Sens.IN);
-		sens.add(Sens.OUT);
-		ArrayList<String> listNom = new ArrayList<String>();
-		listNom.add("Barbara");
-		listNom.add("Bernard");
-		listNom.add("Carol");
-		listNom.add("Dawn");
-		listNom.add("Elizabeth");
-		listNom.add("Anna");
-		listNom.add("Jill");
-
-		ArrayList<Noeud> listNode = Recherche.parcoursLargeur(g, "NoSQL Distilled", liens, sens, 2);
-
-		assertEquals(listNom.size(), listNode.size());
-		for (int i = 0; i < listNode.size(); i++) {
-			assertEquals(listNom.get(i), listNode.get(i).getName());
-		}
-	}
-
-	public void testParcoursLargeurNoeudGLobal3() {
-		ArrayList<String> liens = new ArrayList<String>();
-		liens.add("likes");
-		liens.add("friend");
-		ArrayList<Sens> sens = new ArrayList<Sens>();
-		sens.add(Sens.IN);
-		sens.add(Sens.OUT);
-		ArrayList<String> listNom = new ArrayList<String>();
-		listNom.add("Barbara");
-		listNom.add("Bernard");
-		listNom.add("Carol");
-		listNom.add("Dawn");
-		listNom.add("Elizabeth");
-		listNom.add("Anna");
-		listNom.add("Jill");
-
-		ArrayList<Noeud> listNode = Recherche.parcoursLargeur(g, "NoSQL Distilled", liens, sens, 9);
-
-		assertEquals(listNom.size(), listNode.size());
-		for (int i = 0; i < listNode.size(); i++) {
-			assertEquals(listNom.get(i), listNode.get(i).getName());
-		}
-	}
 }

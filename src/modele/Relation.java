@@ -36,10 +36,6 @@ public class Relation {
 		this.mapAttribut = mapAttribut;
 	}
 
-	public HashMap<String, ArrayList<String>> getMapAttribut() {
-		return this.mapAttribut;
-	}
-
 	public void addAttribut(String nameAttribut, String valueAttribut) {
 		String name = nameAttribut.toLowerCase();
 		if (this.mapAttribut.containsKey(name)) {
@@ -62,18 +58,6 @@ public class Relation {
 		}
 	}
 
-	public Relation reverse(Noeud nFrom, HashMap<String, ArrayList<String>> mapAttributs) {
-		Sens reverseSens = sens;
-		if (sens.equals(Sens.IN)) {
-			reverseSens = Sens.OUT;
-		} else if (sens.equals(Sens.OUT)) {
-			reverseSens = Sens.IN;
-		}
-		Relation reverse = new Relation(name, nFrom, reverseSens);
-		reverse.addAttribut(mapAttributs);
-		return reverse;
-	}
-
 	public boolean estDuTypes(ArrayList<String> listLiens) {
 		for (String s : listLiens) {
 			if (this.name.equalsIgnoreCase(s)) {
@@ -83,9 +67,12 @@ public class Relation {
 		return false;
 	}
 
+	public HashMap<String, ArrayList<String>> getMapAttribut() {
+		return this.mapAttribut;
+	}
+
 	public boolean equals(Relation r) {
-		return name.equalsIgnoreCase(r.getName()) && r.getNoeudDestination().equals(noeudD)
-				&& r.getSensString().equals(sens.toString());
+		return name.equalsIgnoreCase(r.getName()) && r.getNoeudDestination().equals(noeudD);
 	}
 
 	public String toString() {
