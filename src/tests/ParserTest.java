@@ -147,4 +147,22 @@ public class ParserTest {
 		assertEquals(false, p.verifLigne("Thomas<--friend[since=2009, share=[]]-->Anthony"));
 	}
 	
+	@Test
+	public void testVerifLigne21() {
+		System.out.println("OK : verifLigne21 -> om de noeud ou de relation avec des underscore");
+		assertEquals(true, p.verifLigne("under_score--best_friend-->back_slash"));
+	}
+	
+	@Test
+	public void testVerifLigne22() {
+		System.out.println("NOT OK : verifLigne22 -> mettre plus d'un espace avant, apres et dans les noms de noeud ou de relation ");
+		assertEquals(false, p.verifLigne("Barbara  --friend --> Anna"));
+	}
+	
+	@Test
+	public void testVerifLigne23() {
+		System.out.println("NOT OK : verifLigne23 -> crochets pour la valeur d'un attribut mais avec une seule valeur dedans ");
+		assertEquals(false, p.verifLigne("Barbara--friend[since=[1999]]-->Anna"));
+	}
+	
 }
