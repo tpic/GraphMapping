@@ -50,16 +50,9 @@ public class Noeud {
 	}
 
 	public boolean verifDoublon(Relation r) {
-		for (HashMap<String, ArrayList<Relation>> hm : this.flux.get(r.getSens().toString())) {
-			for (String titleRelation : hm.keySet()) {
-				if (titleRelation.equalsIgnoreCase(r.getName())) {
-					for (Relation relation : hm.get(titleRelation)) {
-						if (relation.equals(r)) {
-							return true;
-						}
-					}
-
-				}
+		for (Relation relation : this.getFlux(r.getSens())) {
+			if (relation.equals(r)) {
+				return true;
 			}
 		}
 		return false;
