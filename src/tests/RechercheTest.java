@@ -145,7 +145,7 @@ public class RechercheTest extends TestCase {
 		}
 		assertEquals(listNom.size(), listNode.size());
 		for (int i = 0; i < listNom.size(); i++) {
-			assertEquals(listNom.get(i), listNode.get(i).getName());
+			assertEquals(true, listNom.contains(listNode.get(i).getName()));
 		}
 	}
 
@@ -165,7 +165,8 @@ public class RechercheTest extends TestCase {
 		listNom.add("Anna");
 		listNom.add("Jill");
 
-		ArrayList<Noeud> listNode = Recherche.parcoursLargeur(g, "NoSQL Distilled", liens, sens, 0);
+		ArrayList<Noeud> listNode = Recherche.parcoursLargeur(g, "NoSQL Distilled", liens, sens, 0,
+				false);
 
 		assertEquals(listNom.size(), listNode.size());
 		for (int i = 0; i < listNode.size(); i++) {
@@ -187,7 +188,8 @@ public class RechercheTest extends TestCase {
 		listNom.add("Dawn");
 		listNom.add("Elizabeth");
 
-		ArrayList<Noeud> listNode = Recherche.parcoursLargeur(g, "NoSQL Distilled", liens, sens, 1);
+		ArrayList<Noeud> listNode = Recherche.parcoursLargeur(g, "NoSQL Distilled", liens, sens, 1,
+				false);
 
 		assertEquals(listNom.size(), listNode.size());
 		for (int i = 0; i < listNode.size(); i++) {
@@ -211,7 +213,8 @@ public class RechercheTest extends TestCase {
 		listNom.add("Anna");
 		listNom.add("Jill");
 
-		ArrayList<Noeud> listNode = Recherche.parcoursLargeur(g, "NoSQL Distilled", liens, sens, 2);
+		ArrayList<Noeud> listNode = Recherche.parcoursLargeur(g, "NoSQL Distilled", liens, sens, 2,
+				false);
 
 		assertEquals(listNom.size(), listNode.size());
 		for (int i = 0; i < listNode.size(); i++) {
@@ -235,11 +238,36 @@ public class RechercheTest extends TestCase {
 		listNom.add("Anna");
 		listNom.add("Jill");
 
-		ArrayList<Noeud> listNode = Recherche.parcoursLargeur(g, "NoSQL Distilled", liens, sens, 9);
+		ArrayList<Noeud> listNode = Recherche.parcoursLargeur(g, "NoSQL Distilled", liens, sens, 9,
+				false);
 
 		assertEquals(listNom.size(), listNode.size());
 		for (int i = 0; i < listNode.size(); i++) {
 			assertEquals(listNom.get(i), listNode.get(i).getName());
+		}
+	}
+
+	public void testParcoursLargeurRelationGlobal0() {
+		ArrayList<String> liens = new ArrayList<String>();
+		liens.add("friend");
+		ArrayList<Sens> sens = new ArrayList<Sens>();
+		sens.add(Sens.INOUT);
+		ArrayList<String> listNom = new ArrayList<String>();
+		listNom.add("Barbara");
+		listNom.add("Carol");
+		listNom.add("Anna");
+		listNom.add("Elizabeth");
+		listNom.add("Jill");
+		listNom.add("Dawn");
+
+		ArrayList<Noeud> listNode = Recherche.parcoursProfondeur(g, "Carol", liens, sens, 0, true);
+
+		for (Noeud n : listNode) {
+			System.out.println(n);
+		}
+		assertEquals(listNom.size(), listNode.size());
+		for (int i = 0; i < listNom.size(); i++) {
+			assertEquals(true, listNom.contains(listNode.get(i).getName()));
 		}
 	}
 

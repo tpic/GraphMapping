@@ -1,6 +1,5 @@
 package modele;
 
-
 public class Tests {
 
 	public static void main(String[] args) {
@@ -10,5 +9,7 @@ public class Tests {
 		p.verifFichier("donnees.txt");
 
 		System.out.println(g);
+
+		Recherche.parcoursManuel(g, "Barbara");
 	}
 }

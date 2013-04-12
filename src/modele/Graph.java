@@ -11,7 +11,7 @@ public class Graph {
 
 	public void addRelation(Noeud nFrom, Relation r, Noeud nTo) {
 		nFrom.addFlux(r);
-		Relation reverse = r.reverse(nFrom, r.getMapAttribut());
+		Relation reverse = r.reverse();
 		nTo.addFlux(reverse);
 	}
 

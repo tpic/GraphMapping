@@ -169,7 +169,8 @@ public class Parser {
 		} else if (splitedLine.get(0).equalsIgnoreCase(Sens.OUT.toString())) {
 			sens = Sens.OUT;
 		}
-		Relation r = new Relation(splitedLine.get(3), n2, sens);
+		// Relation r = new Relation(splitedLine.get(3), n2, sens);
+		Relation r = new Relation(splitedLine.get(3), n1, n2, sens);
 		for (int i = 4; i < splitedLine.size(); i += 2) {
 			r.addAttribut(splitedLine.get(i), splitedLine.get(i + 1));
 		}
