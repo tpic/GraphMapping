@@ -28,13 +28,12 @@ public class Parser {
 		String ligne = "";
 
 		try {
-			BufferedReader br = new BufferedReader(new FileReader(new File(
-					nomFichier)));
+			BufferedReader br = new BufferedReader(new FileReader(new File(nomFichier)));
 			while ((ligne = br.readLine()) != null) {
 				if (verifLigne(ligne)) {
 					splitLines(ligne);
 				} else {
-					System.out.println(ligne);
+					// System.out.println(ligne);
 				}
 			}
 			br.close();
@@ -113,8 +112,7 @@ public class Parser {
 			splitedLine.add(tab[1]); // Si la relation est sans attributs
 		else {
 			splitedLine.add(tab[1].substring(0, nb));
-			attributs = tab[1].substring(nb + 1,
-					tab[1].indexOf("]", tab[1].length() - 1));
+			attributs = tab[1].substring(nb + 1, tab[1].indexOf("]", tab[1].length() - 1));
 		}
 
 		// Booleen permettant de tester si on a atteind la fin du parcours des
@@ -171,7 +169,8 @@ public class Parser {
 		} else if (splitedLine.get(0).equalsIgnoreCase(Sens.OUT.toString())) {
 			sens = Sens.OUT;
 		}
-		Relation r = new Relation(splitedLine.get(3), n2, sens);
+		// Relation r = new Relation(splitedLine.get(3), n2, sens);
+		Relation r = new Relation(splitedLine.get(3), n1, n2, sens);
 		for (int i = 4; i < splitedLine.size(); i += 2) {
 			r.addAttribut(splitedLine.get(i), splitedLine.get(i + 1));
 		}

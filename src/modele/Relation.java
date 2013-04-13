@@ -6,18 +6,24 @@ import java.util.HashMap;
 public class Relation {
 	private String name;
 	private HashMap<String, ArrayList<String>> mapAttribut;
+	private Noeud noeudS;
 	private Noeud noeudD;
 	private Sens sens;
 
-	public Relation(String name, Noeud noeudD, Sens sens) {
+	public Relation(String name, Noeud noeudS, Noeud noeudD, Sens sens) {
 		this.name = name.toLowerCase();
 		this.mapAttribut = new HashMap<String, ArrayList<String>>();
+		this.noeudS = noeudS;
 		this.noeudD = noeudD;
 		this.sens = sens;
 	}
 
 	public String getName() {
 		return name;
+	}
+
+	public Noeud getNoeudSource() {
+		return noeudS;
 	}
 
 	public Noeud getNoeudDestination() {
@@ -34,6 +40,10 @@ public class Relation {
 
 	public void setMapAttribut(HashMap<String, ArrayList<String>> mapAttribut) {
 		this.mapAttribut = mapAttribut;
+	}
+
+	public HashMap<String, ArrayList<String>> getMapAttribut() {
+		return this.mapAttribut;
 	}
 
 	public void addAttribut(String nameAttribut, String valueAttribut) {
@@ -58,6 +68,18 @@ public class Relation {
 		}
 	}
 
+	public Relation reverse() {
+		Sens reverseSens = sens;
+		if (sens.equals(Sens.IN)) {
+			reverseSens = Sens.OUT;
+		} else if (sens.equals(Sens.OUT)) {
+			reverseSens = Sens.IN;
+		}
+		Relation reverse = new Relation(name, noeudD, noeudS, reverseSens);
+		reverse.addAttribut(mapAttribut);
+		return reverse;
+	}
+
 	public boolean estDuTypes(ArrayList<String> listLiens) {
 		for (String s : listLiens) {
 			if (this.name.equalsIgnoreCase(s)) {
@@ -67,17 +89,25 @@ public class Relation {
 		return false;
 	}
 
-	public HashMap<String, ArrayList<String>> getMapAttribut() {
-		return this.mapAttribut;
+	public boolean equals(Relation r) {
+		if (r == null) {
+			return false;
+		}
+		return name.equalsIgnoreCase(r.getName()) && r.getNoeudDestination().equals(noeudD)
+				&& r.getNoeudSource().equals(noeudS) && r.getSensString().equals(sens.toString());
 	}
 
-	public boolean equals(Relation r) {
-		return name.equalsIgnoreCase(r.getName()) && r.getNoeudDestination().equals(noeudD);
+	public boolean equalsReverse(Relation r) {
+		if (r == null) {
+			return false;
+		}
+		return name.equalsIgnoreCase(r.getName()) && r.getNoeudDestination().equals(noeudS)
+				&& r.getNoeudSource().equals(noeudD);
 	}
 
 	public String toString() {
 		StringBuffer buf = new StringBuffer();
-		buf.append(this.name);
+		buf.append(this.noeudS + " : " + this.name);
 		buf.append(" : [");
 		for (String s : this.mapAttribut.keySet()) {
 			buf.append(s + " -> '");
