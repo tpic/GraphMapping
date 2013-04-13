@@ -11,6 +11,14 @@ public class ParserTest {
 	Parser p = new Parser(new Graph());
 
 	/*
+	 * tests de la méthode verifFichier(String)
+	 */
+	/*
+	 * @Test public void testVerifFichier() { String file = "donnees.txt";
+	 * System.out.println("VerifFichier, param : nom du fichier");
+	 * assertEquals(true, p.verifFichier(file)); }
+	 */
+	/*
 	 * tests de la méthode verifLigne(String)
 	 */
 
@@ -89,7 +97,7 @@ public class ParserTest {
 	@Test
 	public void testVerifLigne11() {
 		System.out
-				.println("NOT OK : verifLigne11 -> deux points a la place de égal");
+				.println("NOT OK : verifLigne11 -> deux points à la place du signe égal");
 		assertEquals(
 				false,
 				p.verifLigne("Anthony--likes[version=[films VF, films VO, films VOSTFr], type:[action, comedy]]-->cinema"));
@@ -97,7 +105,8 @@ public class ParserTest {
 
 	@Test
 	public void testVerifLigne12() {
-		System.out.println("NOT OK : verifLigne12 -> rien apres la virgule");
+		System.out
+				.println("NOT OK : verifLigne12 -> Aucune valeur après une virgule (1)");
 		assertEquals(
 				false,
 				p.verifLigne("Marianne<--friend[since=2011, share[musik, books, ]-->Thomas"));
@@ -105,63 +114,97 @@ public class ParserTest {
 
 	@Test
 	public void testVerifLigne13() {
-		System.out.println("NOT OK : verifLigne13 -> guillemets");
+		System.out
+				.println("NOT OK : verifLigne13 -> Aucune valeur après une virgule (2)");
 		assertEquals(
 				false,
-				p.verifLigne("Thomas--employee_of[role=developer, hired=Mar 13\"]-->Bull"));
+				p.verifLigne("Marianne<--friend[since=2011, share[musik, books], -->Thomas"));
 	}
 
 	@Test
 	public void testVerifLigne14() {
-		System.out.println("NOT OK : verifLigne14 -> rien dans les crochets");
-		assertEquals(false, p.verifLigne("TopChef--category[]-->TV"));
+		System.out.println("NOT OK : verifLigne14 -> Caractère special");
+		assertEquals(
+				false,
+				p.verifLigne("Thomas--employee_of[role=developer, hired=Mar 13\\\"]-->Bull"));
 	}
 
 	@Test
 	public void testVerifLigne15() {
-		System.out.println("NOT OK : verifLigne15 -> rien apres egal ");
-		assertEquals(false,
-				p.verifLigne("Florence--friend[since=2011, share=]-->Marianne"));
+		System.out
+				.println("NOT OK : verifLigne15 -> Aucun attribut dans les crochets");
+		assertEquals(false, p.verifLigne("TopChef--category[]-->TV"));
 	}
 
 	@Test
 	public void testVerifLigne16() {
 		System.out
-				.println("NOT OK : verifLigne16 -> seulement un trait dans la flèche ");
-		assertEquals(false, p.verifLigne("Kristina--likes->Allemagne"));
+				.println("NOT OK : verifLigne16 -> Aucune valeur dans l'attribut");
+		assertEquals(false,
+				p.verifLigne("Florence--friend[since=2011, share=]-->Marianne"));
 	}
 
 	@Test
 	public void testVerifLigne17() {
 		System.out
-				.println("NOT OK : verifLigne17 -> deux points a la place de egal ");
+				.println("NOT OK : verifLigne17 -> seulement un trait dans la flèche ");
+		assertEquals(false, p.verifLigne("Kristina--likes->Allemagne"));
+	}
+
+	@Test
+	public void testVerifLigne18() {
+		System.out
+				.println("NOT OK : verifLigne18 -> deux points a la place du signe égal");
 		assertEquals(
 				false,
 				p.verifLigne("Anthony--likes[version=[films VF, films VO, films VOSTFr], type:[action, comedy]]-->cinema"));
 	}
 
 	@Test
-	public void testVerifLigne18() {
-		System.out.println("NOT OK : verifLigne18 -> carac speciaux ");
+	public void testVerifLigne19() {
+		System.out.println("NOT OK : verifLigne19 -> caractère special");
 		assertEquals(
 				false,
 				p.verifLigne("Anthony--employe_of[role=project manager*, hired=mar 13]-->Orange"));
 	}
 
 	@Test
-	public void testVerifLigne19() {
+	public void testVerifLigne20() {
 		System.out
-				.println("NOT OK : verifLigne19 -> espace entre les tirets du lien ");
+				.println("NOT OK : verifLigne20 -> espace entre les tirets du lien ");
 		assertEquals(
 				false,
 				p.verifLigne("Anthony<- -friend[since=2011, share=[games, fb, serie] ]-->Marianne"));
 	}
 
 	@Test
-	public void testVerifLigne20() {
-		System.out.println("NOT OK : verifLigne20 -> rien dans les crochets ");
+	public void testVerifLigne21() {
+		System.out
+				.println("OK : verifLigne21 -> om de noeud ou de relation avec des underscore");
+		assertEquals(true,
+				p.verifLigne("under_score--best_friend-->back_slash"));
+	}
+
+	@Test
+	public void testVerifLigne22() {
+		System.out
+				.println("NOT OK : verifLigne22 -> mettre plus d'un espace avant, apres et dans les noms de noeud ou de relation ");
+		assertEquals(false, p.verifLigne("Barbara  --friend --> Anna"));
+	}
+
+	@Test
+	public void testVerifLigne23() {
+		System.out
+				.println("NOT OK : verifLigne23 -> crochets pour la valeur d'un attribut mais avec une seule valeur dedans ");
+		assertEquals(false,
+				p.verifLigne("Barbara--friend[since=[1999]]-->Anna"));
+	}
+
+	@Test
+	public void testVerifLigne24() {
+		System.out
+				.println("NOT OK : verifLigne21 -> Aucune valeur dans les crochets ");
 		assertEquals(false,
 				p.verifLigne("Thomas<--friend[since=2009, share=[]]-->Anthony"));
 	}
-
 }

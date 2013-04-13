@@ -40,8 +40,8 @@ public class RechercheTest extends TestCase {
 		listNom.add("Jill");
 		listNom.add("Bernard");
 
-		ArrayList<Noeud> listNode = Recherche.parcoursProfondeur(g, "NoSQL Distilled", liens, sens,
-				0, false);
+		ArrayList<Noeud> listNode = Recherche.parcoursProfondeur(g,
+				"NoSQL Distilled", liens, sens, 0, false);
 
 		assertEquals(listNom.size(), listNode.size());
 		for (int i = 0; i < listNom.size(); i++) {
@@ -63,8 +63,8 @@ public class RechercheTest extends TestCase {
 		listNom.add("Dawn");
 		listNom.add("Elizabeth");
 
-		ArrayList<Noeud> listNode = Recherche.parcoursProfondeur(g, "NoSQL Distilled", liens, sens,
-				1, false);
+		ArrayList<Noeud> listNode = Recherche.parcoursProfondeur(g,
+				"NoSQL Distilled", liens, sens, 1, false);
 
 		assertEquals(listNom.size(), listNode.size());
 		for (int i = 0; i < listNode.size(); i++) {
@@ -88,8 +88,8 @@ public class RechercheTest extends TestCase {
 		listNom.add("Dawn");
 		listNom.add("Jill");
 
-		ArrayList<Noeud> listNode = Recherche.parcoursProfondeur(g, "NoSQL Distilled", liens, sens,
-				2, false);
+		ArrayList<Noeud> listNode = Recherche.parcoursProfondeur(g,
+				"NoSQL Distilled", liens, sens, 2, false);
 
 		assertEquals(listNom.size(), listNode.size());
 		for (int i = 0; i < listNode.size(); i++) {
@@ -114,8 +114,8 @@ public class RechercheTest extends TestCase {
 		listNom.add("Jill");
 		listNom.add("Bernard");
 
-		ArrayList<Noeud> listNode = Recherche.parcoursProfondeur(g, "NoSQL Distilled", liens, sens,
-				3, false);
+		ArrayList<Noeud> listNode = Recherche.parcoursProfondeur(g,
+				"NoSQL Distilled", liens, sens, 3, false);
 
 		assertEquals(listNom.size(), listNode.size());
 		for (int i = 0; i < listNom.size(); i++) {
@@ -138,7 +138,8 @@ public class RechercheTest extends TestCase {
 		listNom.add("Jill");
 		listNom.add("Dawn");
 
-		ArrayList<Noeud> listNode = Recherche.parcoursProfondeur(g, "Carol", liens, sens, 0, true);
+		ArrayList<Noeud> listNode = Recherche.parcoursProfondeur(g, "Carol",
+				liens, sens, 0, true);
 
 		for (Noeud n : listNode) {
 			System.out.println(n);
@@ -165,8 +166,8 @@ public class RechercheTest extends TestCase {
 		listNom.add("Anna");
 		listNom.add("Jill");
 
-		ArrayList<Noeud> listNode = Recherche.parcoursLargeur(g, "NoSQL Distilled", liens, sens, 0,
-				false);
+		ArrayList<Noeud> listNode = Recherche.parcoursLargeur(g,
+				"NoSQL Distilled", liens, sens, 0, false);
 
 		assertEquals(listNom.size(), listNode.size());
 		for (int i = 0; i < listNode.size(); i++) {
@@ -188,8 +189,8 @@ public class RechercheTest extends TestCase {
 		listNom.add("Dawn");
 		listNom.add("Elizabeth");
 
-		ArrayList<Noeud> listNode = Recherche.parcoursLargeur(g, "NoSQL Distilled", liens, sens, 1,
-				false);
+		ArrayList<Noeud> listNode = Recherche.parcoursLargeur(g,
+				"NoSQL Distilled", liens, sens, 1, false);
 
 		assertEquals(listNom.size(), listNode.size());
 		for (int i = 0; i < listNode.size(); i++) {
@@ -213,8 +214,8 @@ public class RechercheTest extends TestCase {
 		listNom.add("Anna");
 		listNom.add("Jill");
 
-		ArrayList<Noeud> listNode = Recherche.parcoursLargeur(g, "NoSQL Distilled", liens, sens, 2,
-				false);
+		ArrayList<Noeud> listNode = Recherche.parcoursLargeur(g,
+				"NoSQL Distilled", liens, sens, 2, false);
 
 		assertEquals(listNom.size(), listNode.size());
 		for (int i = 0; i < listNode.size(); i++) {
@@ -238,8 +239,8 @@ public class RechercheTest extends TestCase {
 		listNom.add("Anna");
 		listNom.add("Jill");
 
-		ArrayList<Noeud> listNode = Recherche.parcoursLargeur(g, "NoSQL Distilled", liens, sens, 9,
-				false);
+		ArrayList<Noeud> listNode = Recherche.parcoursLargeur(g,
+				"NoSQL Distilled", liens, sens, 9, false);
 
 		assertEquals(listNom.size(), listNode.size());
 		for (int i = 0; i < listNode.size(); i++) {
@@ -260,7 +261,8 @@ public class RechercheTest extends TestCase {
 		listNom.add("Jill");
 		listNom.add("Dawn");
 
-		ArrayList<Noeud> listNode = Recherche.parcoursProfondeur(g, "Carol", liens, sens, 0, true);
+		ArrayList<Noeud> listNode = Recherche.parcoursProfondeur(g, "Carol",
+				liens, sens, 0, true);
 
 		for (Noeud n : listNode) {
 			System.out.println(n);
@@ -269,6 +271,7 @@ public class RechercheTest extends TestCase {
 		for (int i = 0; i < listNom.size(); i++) {
 			assertEquals(true, listNom.contains(listNode.get(i).getName()));
 		}
+
 	}
 
 }
