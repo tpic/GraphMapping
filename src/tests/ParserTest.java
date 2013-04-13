@@ -13,11 +13,14 @@ public class ParserTest {
 	/*
 	 * tests de la méthode verifFichier(String)
 	 */
-	/*
-	 * @Test public void testVerifFichier() { String file = "donnees.txt";
-	 * System.out.println("VerifFichier, param : nom du fichier");
-	 * assertEquals(true, p.verifFichier(file)); }
-	 */
+
+	@Test
+	public void testVerifFichier() {
+		String file = "donnees.txt";
+		System.out.println("VerifFichier, param : nom du fichier");
+		assertEquals(true, p.verifFichier(file));
+	}
+
 	/*
 	 * tests de la méthode verifLigne(String)
 	 */
@@ -126,7 +129,7 @@ public class ParserTest {
 		System.out.println("NOT OK : verifLigne14 -> Caractère special");
 		assertEquals(
 				false,
-				p.verifLigne("Thomas--employee_of[role=developer, hired=Mar 13\\\"]-->Bull"));
+				p.verifLigne("Thomas--employee_of[role=developer, hired=Mar 13\"]-->Bull"));
 	}
 
 	@Test
@@ -180,7 +183,7 @@ public class ParserTest {
 	@Test
 	public void testVerifLigne21() {
 		System.out
-				.println("OK : verifLigne21 -> om de noeud ou de relation avec des underscore");
+				.println("OK : verifLigne21 -> nom de noeud ou de relation avec des underscore");
 		assertEquals(true,
 				p.verifLigne("under_score--best_friend-->back_slash"));
 	}
