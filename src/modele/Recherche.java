@@ -1,124 +1,214 @@
 package modele;
+
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.Scanner;
 
 public class Recherche {
 
-	public static ArrayList<String> parcours(Graph g, String nomNoeudDep, String mode, String sens,
-			ArrayList<String> liens, int niveauMax) {
-		// ArrayList résultat pour les tests unitaires
-		ArrayList<String> res = new ArrayList<String>();
+	public static ArrayList<Noeud> parcoursProfondeur(Graph g, String nomNoeudDep,
+			ArrayList<String> listLiens, ArrayList<Sens> listSens, int niveauMax,
+			boolean relationGlobal) {
+		if (listLiens.size() != listSens.size() || listLiens.size() == 0) {
+			System.out.println("Taille de la liste Sens et la liste Liens différentes ou nulle");
+			return null;
+		}
 		Noeud noeudDep = g.getNoeud(nomNoeudDep);
 		if (noeudDep != null) {
-			ArrayList<String> listNomNoeud = new ArrayList<String>();
-			ArrayList<Noeud> listNoeuds = new ArrayList<Noeud>();
-			System.out.print("Noeud de depart : " + noeudDep.getName() + ", recherche : " + mode
-					+ " sens : '" + sens + "' lien(s) : ");
-			for (String lien : liens) {
-				System.out.print(lien + ", ");
+			int niveauSens = 0;
+			int niveauLastNoeud = 0;
+			String lienInitial = listLiens.get(0);
+			ArrayList<Noeud> listNoeudsResul = new ArrayList<Noeud>();
+			ArrayList<Relation> listRelationGlobal = new ArrayList<Relation>();
+			ArrayList<Relation> listRelations = noeudDep.getFlux(listSens.get(niveauSens));
+			if (listLiens.size() != 1) {
+				// Suppression du premier lien et du premier sens
+				listLiens.remove(0);
+				listSens.remove(0);
 			}
-			System.out.println("niveau max : " + niveauMax);
+			for (Relation r : listRelations) {
+				if (r.getName().equalsIgnoreCase(lienInitial)) {
+					if (relationGlobal) {
+						listRelationGlobal.add(r);
+						parcoursProfondeurRelationGlobalRecur(r.getNoeudDestination(), listLiens,
+								listSens, niveauMax, niveauSens, niveauLastNoeud + 1,
+								listNoeudsResul, listRelationGlobal);
+					} else {
+						parcoursProfondeurRecur(r.getNoeudDestination(), listLiens, listSens,
+								niveauMax, niveauSens, niveauLastNoeud + 1, listNoeudsResul);
+					}
+				}
+			}
+			return listNoeudsResul;
+		}
+		return null;
+	}
+
+	private static void parcoursProfondeurRelationGlobalRecur(Noeud noeud,
+			ArrayList<String> listLiens, ArrayList<Sens> listSens, int niveauMax, int niveauSens,
+			int niveauLastNoeud, ArrayList<Noeud> listNoeudsResul,
+			ArrayList<Relation> listRelationGlobal) {
+		if (!listNoeudsResul.contains(noeud)) {
+			listNoeudsResul.add(noeud);
+		}
+		if (niveauLastNoeud == niveauMax) {
+			return;
+		}
+		if (niveauSens >= listSens.size()) {
+			niveauSens = listSens.size() - 1;
+		}
+		ArrayList<Relation> listRelations = noeud.getFlux(listSens.get(niveauSens));
+		for (Relation r : listRelations) {
+			boolean present = false;
+			for (Relation glob : listRelationGlobal) {
+				if (glob.equals(r) || glob.equalsReverse(r)) {
+					present = true;
+				}
+			}
+			if (r.estDuTypes(listLiens) && !present) {
+				listRelationGlobal.add(r);
+				parcoursProfondeurRelationGlobalRecur(r.getNoeudDestination(), listLiens, listSens,
+						niveauMax, niveauSens + 1, niveauLastNoeud + 1, listNoeudsResul,
+						listRelationGlobal);
+			}
+		}
+	}
+
+	private static void parcoursProfondeurRecur(Noeud noeud, ArrayList<String> listLiens,
+			ArrayList<Sens> listSens, int niveauMax, int niveauSens, int niveauLastNoeud,
+			ArrayList<Noeud> listNoeudsResul) {
+		if (!listNoeudsResul.contains(noeud)) {
+			listNoeudsResul.add(noeud);
+		}
+		if (niveauLastNoeud == niveauMax) {
+			return;
+		}
+		if (niveauSens >= listSens.size()) {
+			niveauSens = listSens.size() - 1;
+		}
+		ArrayList<Relation> listRelations = noeud.getFlux(listSens.get(niveauSens));
+		for (Relation r : listRelations) {
+			if (r.estDuTypes(listLiens)) {
+				parcoursProfondeurRecur(r.getNoeudDestination(), listLiens, listSens, niveauMax,
+						niveauSens + 1, niveauLastNoeud + 1, listNoeudsResul);
+			}
+		}
+	}
+
+	public static ArrayList<Noeud> parcoursLargeur(Graph g, String nomNoeudDep,
+			ArrayList<String> listLiens, ArrayList<Sens> listSens, int niveauMax,
+			boolean relationGlobal) {
+		if (listLiens.size() != listSens.size() || listLiens.size() == 0) {
+			System.out.println("Taille de la liste Sens et la liste Liens différente ou nulle");
+			return null;
+		}
+		Noeud noeudDep = g.getNoeud(nomNoeudDep);
+		if (noeudDep != null) {
 			int niveau = 0;
-			ArrayList<Relation> listRelations = null;  
-			if (sens.equals("<")) {
-				listRelations = noeudDep.getFluxEntrant();
-			} else if (sens.equals(">")) {
-				listRelations = noeudDep.getFluxSortant();
-			} else {
-				listRelations = noeudDep.getFluxEntrant();
-				listRelations.addAll(noeudDep.getFluxSortant());
+			int niveauLastNoeud = 0;
+			String lienInitial = listLiens.get(0);
+			ArrayList<Noeud> listNoeuds = new ArrayList<Noeud>();
+			LinkedList<Noeud> listNoeudsToVisit = new LinkedList<Noeud>();
+			ArrayList<Relation> listRelationGlobal = new ArrayList<Relation>();
+			ArrayList<Relation> listRelations = noeudDep.getFlux(listSens.get(niveau));
+			if (listLiens.size() != 1) {
+				// Suppression du premier lien et du premier sens
+				listLiens.remove(0);
+				listSens.remove(0);
 			}
-			boolean donnee = false;
-			if (mode.equalsIgnoreCase("largeur")) {
-				// TODO Bancale
-				for (Relation r : listRelations) {
-					niveau = 0;
-					if (r.getName().equalsIgnoreCase(liens.get(niveau))) {
-						niveau = 1;
-						donnee = true;
-						parcoursLargeur(r.getNoeudDestination(), liens, niveauMax, niveau,
-								listNoeuds);
+			for (Relation r : listRelations) {
+				if (r.getName().equalsIgnoreCase(lienInitial)) {
+					if (relationGlobal) {
+						listRelationGlobal.add(r);
 					}
+					listNoeudsToVisit.add(r.getNoeudDestination());
 				}
-				for (Noeud n : listNoeuds) {
-					System.out.println(n.getName());
-				}
+			}
+			if (relationGlobal) {
+				parcoursLargeurRelationGlobalRecur(listNoeudsToVisit.getFirst(), listLiens,
+						listSens, niveauMax, niveau, niveauLastNoeud + 1, listNoeudsToVisit.size(),
+						listNoeuds, listNoeudsToVisit, listRelationGlobal);
 			} else {
-				for (Relation r : listRelations) {
-					niveau = 0;
-					if (r.getName().equalsIgnoreCase(liens.get(niveau))) {
-						niveau = 1;
-						donnee = true;
-						parcoursProfondeur(r.getNoeudDestination(), liens, niveauMax, niveau,
-								listNomNoeud);
-					}
-				}
-				// Voir pour retourner une arrayList ou tab pour les tests
-				// unitaire
-				for (String s : listNomNoeud) {
-					System.out.println(s);
-					// Ajout du résultat à l'ArrayList pour les tests unitaires
-					res.add(s);
-				}
+				parcoursLargeurRecur(listNoeudsToVisit.getFirst(), listLiens, listSens, niveauMax,
+						niveau, niveauLastNoeud + 1, listNoeudsToVisit.size(), listNoeuds,
+						listNoeudsToVisit);
 			}
-			if (!donnee) {
-				System.out.println("Aucun noeud ne correspond à votre recherche");
-			}
-		} else {
-			System.out.println("Noeud " + nomNoeudDep + " inconnu");
+			return listNoeuds;
 		}
-		return res;
+		return null;
 	}
 
-	private static void parcoursProfondeur(Noeud noeud, ArrayList<String> liens, int niveauMax,
-			int niveau, ArrayList<String> nomNoeuds) {
-		if (niveau != 0) {
-			if (!nomNoeuds.contains(noeud.getName())) {
-				nomNoeuds.add(noeud.getName());
-			}
-		}
-		if (niveau == niveauMax) {
+	private static void parcoursLargeurRelationGlobalRecur(Noeud noeud,
+			ArrayList<String> listLiens, ArrayList<Sens> listSens, int niveauMax, int niveauSens,
+			int niveauLastNoeud, int niveauSaut, ArrayList<Noeud> listNoeudsResul,
+			LinkedList<Noeud> listNoeudsToVisit, ArrayList<Relation> listRelationGlobal) {
+		if (niveauMax != 0 && niveauLastNoeud > niveauMax) {
 			return;
 		}
-		ArrayList<Relation> relationEntrante = noeud.getFluxSortant();
-		int nivChoix = 1;
-		if (niveau < liens.size() - 1) {
-			nivChoix++;
+		if (!listNoeudsResul.contains(noeud)) {
+			listNoeudsResul.add(noeud);
 		}
-		for (Relation r : relationEntrante) {
-			if (r.getName().equalsIgnoreCase(liens.get(nivChoix))) {
-				niveau++;
-				parcoursProfondeur(r.getNoeudDestination(), liens, niveauMax, niveau, nomNoeuds);
-			}
+		if (niveauSens >= listSens.size()) {
+			niveauSens = listSens.size() - 1;
 		}
-	}
-
-	private static void parcoursLargeur(Noeud noeud, ArrayList<String> liens, int niveauMax,
-			int niveau, ArrayList<Noeud> nomNoeuds) {
-		// TODO A revoir
-		if (niveau == niveauMax) {
-			return;
-		}
-		ArrayList<Relation> relationEntrante = noeud.getFluxSortant();
-		for (Relation r : relationEntrante) {
-			if (r.getName().equalsIgnoreCase(liens.get(niveau))) {
-				if (niveau != 0) {
-					if (!nomNoeuds.contains(r.getNoeudDestination())) {
-						nomNoeuds.add(r.getNoeudDestination());
-						System.out.println(r.getNoeudDestination().getName());
-					}
+		ArrayList<Relation> listRelations = noeud.getFlux(listSens.get(niveauSens));
+		for (Relation r : listRelations) {
+			boolean present = false;
+			for (Relation glob : listRelationGlobal) {
+				if (glob.equals(r) || glob.equalsReverse(r)) {
+					present = true;
 				}
 			}
+			if (r.estDuTypes(listLiens) && !listNoeudsResul.contains(r.getNoeudDestination())
+					&& !present) {
+				listRelationGlobal.add(r);
+				listNoeudsToVisit.add(r.getNoeudDestination());
+			}
 		}
-		if (niveau < liens.size() - 1) {
-			niveau++;
+		listNoeudsToVisit.removeFirst();
+		niveauSaut--;
+		if (!listNoeudsToVisit.isEmpty()) {
+			if (niveauSaut == 0) {
+				niveauSaut = listNoeudsToVisit.size();
+				niveauLastNoeud++;
+			}
+			parcoursLargeurRelationGlobalRecur(listNoeudsToVisit.getFirst(), listLiens, listSens,
+					niveauMax, niveauSens + 1, niveauLastNoeud, niveauSaut, listNoeudsResul,
+					listNoeudsToVisit, listRelationGlobal);
 		}
-		int i = 0;
-		while (i < nomNoeuds.size()) {
-			parcoursLargeur(nomNoeuds.get(i), liens, niveauMax, niveau, nomNoeuds);
-			i++;
-			niveau++;
+
+	}
+
+	private static void parcoursLargeurRecur(Noeud noeud, ArrayList<String> listLiens,
+			ArrayList<Sens> listSens, int niveauMax, int niveauSens, int niveauLastNoeud,
+			int niveauSaut, ArrayList<Noeud> listNoeudsResul, LinkedList<Noeud> listNoeudsToVisit) {
+		if (niveauMax != 0 && niveauLastNoeud > niveauMax) {
+			return;
 		}
+		if (!listNoeudsResul.contains(noeud)) {
+			listNoeudsResul.add(noeud);
+		}
+		if (niveauSens >= listSens.size()) {
+			niveauSens = listSens.size() - 1;
+		}
+		ArrayList<Relation> listRelations = noeud.getFlux(listSens.get(niveauSens));
+		for (Relation r : listRelations) {
+			if (r.estDuTypes(listLiens) && !listNoeudsResul.contains(r.getNoeudDestination())) {
+				// et !listNoeudsToVisit?
+				listNoeudsToVisit.add(r.getNoeudDestination());
+			}
+		}
+		listNoeudsToVisit.removeFirst();
+		niveauSaut--;
+		if (!listNoeudsToVisit.isEmpty()) {
+			if (niveauSaut == 0) {
+				niveauSaut = listNoeudsToVisit.size();
+				niveauLastNoeud++;
+			}
+			parcoursLargeurRecur(listNoeudsToVisit.getFirst(), listLiens, listSens, niveauMax,
+					niveauSens + 1, niveauLastNoeud, niveauSaut, listNoeudsResul, listNoeudsToVisit);
+		}
+
 	}
 
 	public static void parcoursManuel(Graph g, String nomNoeud) {

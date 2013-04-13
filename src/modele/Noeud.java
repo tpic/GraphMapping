@@ -14,12 +14,9 @@ public class Noeud {
 	public Noeud(String name) {
 		this.name = name;
 		this.flux = new HashMap<String, ArrayList<HashMap<String, ArrayList<Relation>>>>();
-		this.flux.put("IN",
-				new ArrayList<HashMap<String, ArrayList<Relation>>>());
-		this.flux.put("OUT",
-				new ArrayList<HashMap<String, ArrayList<Relation>>>());
-		this.flux.put("INOUT",
-				new ArrayList<HashMap<String, ArrayList<Relation>>>());
+		this.flux.put("IN", new ArrayList<HashMap<String, ArrayList<Relation>>>());
+		this.flux.put("OUT", new ArrayList<HashMap<String, ArrayList<Relation>>>());
+		this.flux.put("INOUT", new ArrayList<HashMap<String, ArrayList<Relation>>>());
 	}
 
 	public String getName() {
@@ -29,8 +26,7 @@ public class Noeud {
 	public void addFlux(Relation r) {
 		if (!verifDoublon(r)) {
 			boolean add = false;
-			for (HashMap<String, ArrayList<Relation>> aList : this.flux.get(r
-					.getSensString())) {
+			for (HashMap<String, ArrayList<Relation>> aList : this.flux.get(r.getSensString())) {
 				if (aList.containsKey(r.getName())) {
 					aList.get(r.getName()).add(r);
 					add = true;
@@ -54,17 +50,9 @@ public class Noeud {
 	}
 
 	public boolean verifDoublon(Relation r) {
-		for (HashMap<String, ArrayList<Relation>> hm : this.flux.get(r
-				.getSens().toString())) {
-			for (String titleRelation : hm.keySet()) {
-				if (titleRelation.equalsIgnoreCase(r.getName())) {
-					for (Relation relation : hm.get(titleRelation)) {
-						if (relation.equals(r)) {
-							return true;
-						}
-					}
-
-				}
+		for (Relation relation : this.getFlux(r.getSens())) {
+			if (relation.equals(r)) {
+				return true;
 			}
 		}
 		return false;
@@ -72,8 +60,7 @@ public class Noeud {
 
 	public ArrayList<Relation> getFluxEntrant() {
 		ArrayList<Relation> listRelation = new ArrayList<Relation>();
-		for (HashMap<String, ArrayList<Relation>> hm : this.flux.get(Sens.IN
-				.toString())) {
+		for (HashMap<String, ArrayList<Relation>> hm : this.flux.get(Sens.IN.toString())) {
 			for (String titleRelation : hm.keySet()) {
 				listRelation.addAll(hm.get(titleRelation));
 			}
@@ -85,8 +72,7 @@ public class Noeud {
 
 	public ArrayList<Relation> getFluxSortant() {
 		ArrayList<Relation> listRelation = new ArrayList<Relation>();
-		for (HashMap<String, ArrayList<Relation>> hm : this.flux.get(Sens.OUT
-				.toString())) {
+		for (HashMap<String, ArrayList<Relation>> hm : this.flux.get(Sens.OUT.toString())) {
 			for (String titleRelation : hm.keySet()) {
 				listRelation.addAll(hm.get(titleRelation));
 			}
@@ -98,13 +84,40 @@ public class Noeud {
 
 	public ArrayList<Relation> getFluxDouble() {
 		ArrayList<Relation> listRelation = new ArrayList<Relation>();
-		for (HashMap<String, ArrayList<Relation>> hm : this.flux.get(Sens.INOUT
-				.toString())) {
+		for (HashMap<String, ArrayList<Relation>> hm : this.flux.get(Sens.INOUT.toString())) {
 			for (String titleRelation : hm.keySet()) {
 				listRelation.addAll(hm.get(titleRelation));
 			}
 		}
 		return listRelation;
+	}
+
+	public ArrayList<Relation> getAllFlux() {
+		ArrayList<Relation> listRelation = new ArrayList<Relation>();
+		for (String s : this.flux.keySet()) {
+			for (HashMap<String, ArrayList<Relation>> hm : this.flux.get(s)) {
+				for (String titleRelation : hm.keySet()) {
+					listRelation.addAll(hm.get(titleRelation));
+				}
+			}
+		}
+		return listRelation;
+	}
+
+	public ArrayList<Relation> getFlux(Sens s) {
+		ArrayList<Relation> listRelations = null;
+		switch (s) {
+		case IN:
+			listRelations = this.getFluxEntrant();
+			break;
+		case INOUT:
+			listRelations = this.getAllFlux();
+			break;
+		case OUT:
+			listRelations = this.getFluxSortant();
+			break;
+		}
+		return listRelations;
 	}
 
 	public ArrayList<Relation> getRelation(String sens, String nomRelation) {
@@ -125,8 +138,8 @@ public class Noeud {
 	}
 
 	public String toString() {
-		StringBuffer buff = new StringBuffer(this.name + "\n");
-		for (String s : flux.keySet()) {
+		StringBuffer buff = new StringBuffer(this.name); // + "\n");
+		/*for (String s : flux.keySet()) {
 			buff.append("\t " + s + "\n");
 			for (HashMap<String, ArrayList<Relation>> hm : this.flux.get(s)) {
 				for (String titleRelation : hm.keySet()) {
@@ -136,7 +149,7 @@ public class Noeud {
 					}
 				}
 			}
-		}
+		}*/
 		return buff.toString();
 	}
 }
