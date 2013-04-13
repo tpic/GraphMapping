@@ -22,8 +22,9 @@ public class Parser {
 	 * 
 	 * @param nomFichier
 	 *            : le fichier à tester
+	 * @return
 	 */
-	public void verifFichier(String nomFichier) {
+	public boolean verifFichier(String nomFichier) {
 
 		String ligne = "";
 
@@ -38,11 +39,14 @@ public class Parser {
 				}
 			}
 			br.close();
+			return true;
 
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
+			return false;
 		} catch (IOException e) {
 			e.printStackTrace();
+			return false;
 		}
 
 	}
