@@ -15,6 +15,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -78,21 +79,53 @@ public class Interface {
   			
   		// Ecran de recherche simple
     	JPanel rechercheSimple = new JPanel();
+    	rechercheSimple.setLayout(new GridBagLayout());
     	JButton retour = new JButton("Retour au menu");
+    	c.fill = GridBagConstraints.HORIZONTAL;
+    	c.gridx = c.gridy = 0;
+    	c.gridheight = GridBagConstraints.REMAINDER;
+    	c.gridheight = 1;
+    	c.insets = new Insets(10,15,0,0);
     	retour.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0) {
 				CardLayout c3 = (CardLayout)(listeEcran.getLayout());
 				c3.show(listeEcran, ECRANGENERAL);
 			}
   		});
-    	rechercheSimple.add(retour, BorderLayout.PAGE_START);
+    	rechercheSimple.add(retour, c);
     	JLabel qRech = new JLabel("Veuillez entrer ce que vous recherchez :");
+    	c.fill = GridBagConstraints.HORIZONTAL;
+    	c.gridx = 0;
+    	c.gridy = 1;
+    	c.gridheight = GridBagConstraints.REMAINDER;
+    	c.gridheight = 1;
+    	c.insets = new Insets(10,15,0,0);
+    	rechercheSimple.add(qRech, c);
     	JTextField aRech = new JTextField();
     	aRech.setPreferredSize(new Dimension(130,28));
-    	rechercheSimple.add(qRech);
-    	rechercheSimple.add(aRech);
+    	c.fill = GridBagConstraints.HORIZONTAL;
+    	c.gridx = 1;
+    	c.gridy = 1;
+    	c.gridheight = GridBagConstraints.REMAINDER;
+    	c.gridheight = 1;
+    	rechercheSimple.add(aRech, c);
     	JButton lancerRechS = new JButton("Rechercher!");
-    	rechercheSimple.add(lancerRechS, BorderLayout.CENTER);
+    	c.fill = GridBagConstraints.HORIZONTAL;
+    	c.gridx = 2;
+    	c.gridy = 1;
+    	c.gridheight = GridBagConstraints.REMAINDER;
+    	c.gridheight = 1;
+    	c.insets = new Insets(10,10,0,20);
+    	rechercheSimple.add(lancerRechS, c);
+    	JScrollPane affichage = new JScrollPane();
+    	affichage.setPreferredSize(new Dimension (800, 500));
+    	c.fill = GridBagConstraints.HORIZONTAL;
+    	c.gridx = 0;
+    	c.gridy = 2;
+    	c.gridheight = GridBagConstraints.REMAINDER;
+    	c.gridheight = 1;
+    	c.insets = new Insets(10,15,10,10);
+    	rechercheSimple.add(affichage, c);
     	
     	// Ecran de recherche complexe
     	JPanel rechercheComplexe = new JPanel();
