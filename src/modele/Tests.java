@@ -10,6 +10,7 @@ public class Tests {
 
 		System.out.println(g);
 
-		Recherche.parcoursManuel(g, "Barbara");
+		// Recherche.parcoursManuel(g, "Barbara");
+		new RechercheManuelle().executeSearch(g, "Barbara");
 	}
 }
