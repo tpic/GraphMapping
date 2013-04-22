@@ -20,10 +20,11 @@ public class Parser {
 	 * Lecture du fichier en paramètre et appel de la méthode verifLigne sur
 	 * chaque ligne
 	 * 
-	 * @param file
+	 * @param nomFichier
 	 *            : le fichier à tester
+	 * @return
 	 */
-	public void verifFichier(String nomFichier) {
+	public boolean verifFichier(String nomFichier) {
 
 		String ligne = "";
 
@@ -37,11 +38,14 @@ public class Parser {
 				}
 			}
 			br.close();
+			return true;
 
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
+			return false;
 		} catch (IOException e) {
 			e.printStackTrace();
+			return false;
 		}
 
 	}
@@ -56,7 +60,7 @@ public class Parser {
 		// Test validité de la ligne
 		return Pattern
 				.matches(
-						"(\\w+[éèêàôïü]*\\s?)+<?--\\s?\\w+[éèêàôïü]*\\s?(\\[\\s?(\\w+[éèêàôïü]*\\s?=\\s?((\\w+[éèêàôïü]*\\s?)+|(\\[\\s?(\\w+[éèêàôïü]*\\s?,\\s?)+\\w+[éèêàôïü]*\\s?\\])))(,\\s?(\\w+[éèêàôïü]*\\s?=\\s?((\\w+[éèêàôïü]*\\s?)+|(\\[\\s?(\\w+[éèêàôïü]*\\s?,\\s?)+\\w+[éèêàôïü]*\\s?\\]))))*\\s?\\])?\\s?-->?\\s?(\\w+[éèêàôïü]*\\s?)+",
+						"(\\w+\\s?[éèêàôïü]*\\s?)+<?--(\\s?\\w+\\s?[éèêàôïü]*\\s?)+(\\[\\s?(\\w+\\s?[éèêàôïü]*\\s?=\\s?((\\w+\\s?[éèêàôïü]*\\s?)+|(\\[\\s?(\\w+\\s?[éèêàôïü]*\\s?,\\s?)+\\w+\\s?[éèêàôïü]*\\s?\\])))(,\\s?(\\w+\\s?[éèêàôïü]*\\s?=\\s?((\\w+\\s?[éèêàôïü]*\\s?)+|(\\[\\s?(\\w+\\s?[éèêàôïü]*\\s?,\\s?)+\\w+\\s?[éèêàôïü]*\\s?\\]))))*\\s?\\])?\\s?-->?\\s?(\\w+\\s?[éèêàôïü]*\\s?)+",
 						ligne);
 	}
 
