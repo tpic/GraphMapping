@@ -13,6 +13,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -23,16 +24,26 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+
+import modele.Filtre;
+import modele.Graph;
+import modele.Noeud;
+import modele.Parser;
+import modele.Recherche;
+import modele.RechercheManuelle;
+import modele.TypeRecherche;
+import modele.TypeUnicite;
 
 public class Interface {
 	final static String ECRANGENERAL = "General";
     final static String ECRANRECHERCHESIMPLE = "RechSimple";
     final static String ECRANRECHERCHECOMPLEXE = "RechComplexe";
     
-    public void addComponentToPane(Container pane){
+    public void addComponentToPane(Container pane, final Graph g){
     	final JPanel listeEcran = new JPanel(new CardLayout());
     	// Ecran général
     	JPanel general = new JPanel();
@@ -108,7 +119,7 @@ public class Interface {
     	c.gridheight = 1;
     	c.insets = new Insets(10,15,0,0);
     	rechercheSimple.add(qRech, c);
-    	JTextField aRech = new JTextField();
+    	final JTextField aRech = new JTextField();
     	aRech.setPreferredSize(new Dimension(130,28));
     	c.fill = GridBagConstraints.HORIZONTAL;
     	c.gridx = 1;
@@ -116,7 +127,15 @@ public class Interface {
     	c.gridheight = GridBagConstraints.REMAINDER;
     	c.gridheight = 1;
     	rechercheSimple.add(aRech, c);
+    	final JTextArea contenu = new JTextArea();
     	JButton lancerRechS = new JButton("Rechercher!");
+    	lancerRechS.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent arg0) {
+				// Ajout du code pour la recherche manuelle
+				new RechercheManuelle().executeSearch(g, aRech.getText());
+				contenu.append("Résultat ????");
+			}
+  		});
     	c.fill = GridBagConstraints.HORIZONTAL;
     	c.gridx = 2;
     	c.gridy = 1;
@@ -132,6 +151,7 @@ public class Interface {
     	c.gridheight = GridBagConstraints.REMAINDER;
     	c.gridheight = 1;
     	c.insets = new Insets(10,15,10,10);
+    	affichage.add(contenu);
     	rechercheSimple.add(affichage, c);
     	
     	// Ecran de recherche complexe
@@ -158,7 +178,7 @@ public class Interface {
     	c.gridheight = 1;
     	c.insets = new Insets(10,15,0,0);
     	rechercheComplexe.add(qRech2, c);
-    	JTextField aRech2 = new JTextField();
+    	final JTextField aRech2 = new JTextField();
     	aRech2.setPreferredSize(new Dimension(130,28));
     	c.fill = GridBagConstraints.HORIZONTAL;
     	c.gridx = 1;
@@ -169,13 +189,13 @@ public class Interface {
     	JPanel ensembleOptions = new JPanel();
     	JLabel parcoursTexte = new JLabel("Parcours :");
     	ensembleOptions.add(parcoursTexte);
-    	Choice parcours = new Choice();
+    	final Choice parcours = new Choice();
     	parcours.addItem("Profondeur");
     	parcours.addItem("Largeur");
     	ensembleOptions.add(parcours);
     	JLabel uniciteTexte = new JLabel("Unicité :");
     	ensembleOptions.add(uniciteTexte);
-    	Choice unicite = new Choice();
+    	final Choice unicite = new Choice();
     	unicite.addItem("Noeud global");
     	unicite.addItem("Relation globale");
     	ensembleOptions.add(unicite);
@@ -214,7 +234,23 @@ public class Interface {
     	c.gridheight = GridBagConstraints.REMAINDER;
     	c.gridheight = 1;
     	rechercheComplexe.add(ensembleOptions, c);
+    	final JTextArea contenu2 = new JTextArea();
     	JButton lancerRechC = new JButton("Rechercher!");
+    	lancerRechC.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent arg0) {
+				// Ajout du code pour la recherche avec paramètres
+				TypeRecherche trecherche;
+				if (parcours.getSelectedItem().equals("largeur"))
+					trecherche = TypeRecherche.LARGEUR;
+				else trecherche = TypeRecherche.PROFONDEUR;
+				TypeUnicite tunicite;
+				if (unicite.getSelectedItem().equals("Noeud Global"))
+					tunicite = TypeUnicite.NOEUD_GLOBAL;
+				else tunicite = TypeUnicite.RELATION_GLOBAL;
+				ArrayList<Noeud> result = new Recherche().recherche(g, aRech2.getText(), new ArrayList<Filtre>(), Integer.parseInt(niveau.getText()), trecherche, tunicite);
+				contenu2.append(result.toString());
+			}
+  		});
     	c.fill = GridBagConstraints.HORIZONTAL;
     	c.gridx = 1;
     	c.gridy = 2;
@@ -228,8 +264,8 @@ public class Interface {
     	c.gridy = 3;
     	c.gridheight = GridBagConstraints.REMAINDER;
     	c.insets = new Insets(10,15,10,10);
+    	affichage2.add(contenu2);
     	rechercheComplexe.add(affichage2, c);
-    	
     	listeEcran.add(general, ECRANGENERAL);
     	listeEcran.add(rechercheSimple, ECRANRECHERCHESIMPLE);
     	listeEcran.add(rechercheComplexe, ECRANRECHERCHECOMPLEXE);
@@ -239,6 +275,7 @@ public class Interface {
 	
 	public static void main (String[] args) throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException{
 		UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
+		final Graph g = new Graph();
 		JFrame frame = new JFrame("Graphe réseau social");
 		JMenuBar menu = new JMenuBar();
 		JMenu fichier = new JMenu("Fichier");
@@ -247,10 +284,12 @@ public class Interface {
 			public void actionPerformed(ActionEvent arg0) {
 				String nomFichier = "";
 				JFileChooser chooser = new JFileChooser();
-				chooser.setApproveButtonText("Choix du fichier...");
+				chooser.setApproveButtonText("Choisir le fichier de données");
 				if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION){	
 					nomFichier = chooser.getSelectedFile().getName(); 
 				}
+				Parser p = new Parser(g);
+				p.verifFichier(nomFichier);
 			}
 		});
 		JMenuItem fermer = new JMenuItem("Fermer l'application");
@@ -267,8 +306,16 @@ public class Interface {
 		frame.setJMenuBar(menu);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
+		String nomFichier = "";
+		JFileChooser chooser = new JFileChooser();
+		chooser.setApproveButtonText("Choisir le fichier de données");
+		if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION){	
+			nomFichier = chooser.getSelectedFile().getName(); 
+		}
+		Parser p = new Parser(g);
+		p.verifFichier(nomFichier);
 		Interface appli = new Interface();
-		appli.addComponentToPane(frame.getContentPane());
+		appli.addComponentToPane(frame.getContentPane(), g);
 		
 		frame.pack();
 		frame.setVisible(true);
