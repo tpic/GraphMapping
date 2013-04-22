@@ -80,9 +80,9 @@ public class Relation {
 		return reverse;
 	}
 
-	public boolean estDuTypes(ArrayList<String> listLiens) {
-		for (String s : listLiens) {
-			if (this.name.equalsIgnoreCase(s)) {
+	public boolean estDuTypes(ArrayList<Filtre> listFiltres) {
+		for (Filtre f : listFiltres) {
+			if (this.name.equalsIgnoreCase(f.getNomFiltre())) {
 				return true;
 			}
 		}
