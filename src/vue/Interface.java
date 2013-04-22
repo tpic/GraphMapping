@@ -15,6 +15,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -242,6 +243,16 @@ public class Interface {
 		JMenuBar menu = new JMenuBar();
 		JMenu fichier = new JMenu("Fichier");
 		JMenuItem ouvrir = new JMenuItem("Ouvrir");
+		ouvrir.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent arg0) {
+				String nomFichier = "";
+				JFileChooser chooser = new JFileChooser();
+				chooser.setApproveButtonText("Choix du fichier...");
+				if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION){	
+					nomFichier = chooser.getSelectedFile().getName(); 
+				}
+			}
+		});
 		JMenuItem fermer = new JMenuItem("Fermer l'application");
 		fichier.add(ouvrir);
 		fichier.addSeparator();
