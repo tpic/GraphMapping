@@ -29,7 +29,6 @@ Marianne--employee_of[role=designer, hired=Feb 04]-->St Amé
 Marianne--liks-->TopChef
 Barbara--likes-->Refactoring
 Thomas --study_at[since=Sept 2011, subject=IT]-->MIAGE
-Thomas--employee_of[role=developer, hired=Mar 13"]-->Bull
 Loic--friend[since=2005]-->Loic
 TopChef--category[]-->TV
 Marianne--friend[share=[study, events, books], since=2013]-->Kristina
@@ -38,6 +37,5 @@ Florence--friend[since=2011, share=]-->Marianne
 Florence<--friend[since=2011]-->thomas
 Kristina--likes->Allemagne
 Anthony--likes[version=[films VF, films VO, films VOSTFr], type:[action, comedy]]-->cinema
-Anthony--employe_of[role=project manager*, hired=mar 13]-->Orange
 Anthony<- -friend[since=2011, share=[games, fb, serie] ]-->Marianne
 Thomas<--friend[since=2009, share=[]]-->Anthony
