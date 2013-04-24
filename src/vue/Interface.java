@@ -127,13 +127,13 @@ public class Interface {
     	c.gridheight = GridBagConstraints.REMAINDER;
     	c.gridheight = 1;
     	rechercheSimple.add(aRech, c);
-    	final JTextArea contenu = new JTextArea();
+    	final JTextArea contenu = new JTextArea("Résultat : ");
+    	contenu.setEditable(false);
     	JButton lancerRechS = new JButton("Rechercher!");
     	lancerRechS.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0) {
 				// Ajout du code pour la recherche manuelle
-				new RechercheManuelle().executeSearch(g, aRech.getText());
-				contenu.append("Résultat ????");
+				new RechercheManuelle().executeSearchInterface(g, aRech.getText(), contenu);
 			}
   		});
     	c.fill = GridBagConstraints.HORIZONTAL;
@@ -143,16 +143,14 @@ public class Interface {
     	c.gridheight = 1;
     	c.insets = new Insets(10,10,0,20);
     	rechercheSimple.add(lancerRechS, c);
-    	JScrollPane affichage = new JScrollPane();
-    	affichage.setPreferredSize(new Dimension (800, 500));
+    	contenu.setPreferredSize(new Dimension (800, 500));
     	c.fill = GridBagConstraints.HORIZONTAL;
     	c.gridx = 0;
     	c.gridy = 2;
     	c.gridheight = GridBagConstraints.REMAINDER;
     	c.gridheight = 1;
     	c.insets = new Insets(10,15,10,10);
-    	affichage.add(contenu);
-    	rechercheSimple.add(affichage, c);
+    	rechercheSimple.add(contenu, c);
     	
     	// Ecran de recherche complexe
     	JPanel rechercheComplexe = new JPanel();
@@ -186,7 +184,13 @@ public class Interface {
     	c.gridheight = GridBagConstraints.REMAINDER;
     	c.gridheight = 1;
     	rechercheComplexe.add(aRech2, c);
-    	JPanel ensembleOptions = new JPanel();
+    	final JPanel ensembleOptions = new JPanel();
+     	JButton optionsList = new JButton("Options...");
+    	optionsList.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent arg0) {
+				ensembleOptions.setVisible(true);
+			}
+    	});
     	JLabel parcoursTexte = new JLabel("Parcours :");
     	ensembleOptions.add(parcoursTexte);
     	final Choice parcours = new Choice();
@@ -217,6 +221,7 @@ public class Interface {
     	JLabel liensTexte = new JLabel("Liens :");
     	ensembleOptions.add(liensTexte);
     	Choice liens = new Choice();
+    	for 
     	liens.addItem("Lien 1");
     	liens.addItem("Lien 2");
     	liens.addItem("Lien 3");
@@ -233,6 +238,7 @@ public class Interface {
     	c.gridy = 2;
     	c.gridheight = GridBagConstraints.REMAINDER;
     	c.gridheight = 1;
+    	ensembleOptions.setVisible(false);
     	rechercheComplexe.add(ensembleOptions, c);
     	final JTextArea contenu2 = new JTextArea();
     	JButton lancerRechC = new JButton("Rechercher!");
@@ -248,7 +254,7 @@ public class Interface {
 					tunicite = TypeUnicite.NOEUD_GLOBAL;
 				else tunicite = TypeUnicite.RELATION_GLOBAL;
 				ArrayList<Noeud> result = new Recherche().recherche(g, aRech2.getText(), new ArrayList<Filtre>(), Integer.parseInt(niveau.getText()), trecherche, tunicite);
-				contenu2.append(result.toString());
+				contenu2.setText(result.toString());
 			}
   		});
     	c.fill = GridBagConstraints.HORIZONTAL;
@@ -257,15 +263,14 @@ public class Interface {
     	c.gridheight = GridBagConstraints.REMAINDER;
     	c.gridheight = 1;
     	rechercheComplexe.add(lancerRechC, c);
-    	JScrollPane affichage2 = new JScrollPane();
-    	affichage2.setPreferredSize(new Dimension (800, 500));
+    	contenu2.setPreferredSize(new Dimension (800, 500));
     	c.fill = GridBagConstraints.HORIZONTAL;
     	c.gridx = 0;
     	c.gridy = 3;
     	c.gridheight = GridBagConstraints.REMAINDER;
     	c.insets = new Insets(10,15,10,10);
-    	affichage2.add(contenu2);
-    	rechercheComplexe.add(affichage2, c);
+    	contenu2.add(contenu2);
+    	rechercheComplexe.add(contenu2, c);
     	listeEcran.add(general, ECRANGENERAL);
     	listeEcran.add(rechercheSimple, ECRANRECHERCHESIMPLE);
     	listeEcran.add(rechercheComplexe, ECRANRECHERCHECOMPLEXE);
