@@ -16,6 +16,7 @@ import java.awt.event.KeyListener;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -35,6 +36,7 @@ import modele.Noeud;
 import modele.Parser;
 import modele.Recherche;
 import modele.RechercheManuelle;
+import modele.Relation;
 import modele.TypeRecherche;
 import modele.TypeUnicite;
 
@@ -185,26 +187,114 @@ public class Interface {
     	c.gridheight = 1;
     	rechercheComplexe.add(aRech2, c);
     	final JPanel ensembleOptions = new JPanel();
-     	JButton optionsList = new JButton("Options...");
-    	optionsList.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent arg0) {
-				ensembleOptions.setVisible(true);
-			}
-    	});
+    	ensembleOptions.setLayout(new GridBagLayout());
+    	JLabel lien1 = new JLabel("Lien 1 :");
+    	final Choice liste1 = new Choice();
+    	JLabel sens1 = new JLabel("Sens du lien 1 :");
+    	Choice listeSens1 = new Choice();
+    	JLabel lien2 = new JLabel("Lien 2 :");	
+    	final Choice liste2 = new Choice();
+    	JLabel sens2 = new JLabel("Sens du lien 2 :");
+    	Choice listeSens2 = new Choice();
+    	JLabel lien3 = new JLabel("Lien 3 :");
+    	final Choice liste3 = new Choice();
+    	JLabel sens3 = new JLabel("Sens du lien 3 :");
+    	Choice listeSens3 = new Choice();
+    	JLabel lien4 = new JLabel("Lien 4 :");
+    	final Choice liste4 = new Choice();
+    	JLabel sens4 = new JLabel("Sens du lien 4 :");
+    	Choice listeSens4 = new Choice();
+    	ArrayList<String> listRelation = g.getRelationsGraph();
+		for (String s : listRelation) {
+			liste1.addItem(s);
+			liste2.addItem(s);
+			liste3.addItem(s);
+			liste4.addItem(s);
+		}
+		listeSens1.addItem("Entrant");
+		listeSens1.addItem("Sortant");
+		listeSens1.addItem("Les 2");
+		listeSens2.addItem("Entrant");
+		listeSens2.addItem("Sortant");
+		listeSens2.addItem("Les 2");
+		listeSens3.addItem("Entrant");
+		listeSens3.addItem("Sortant");
+		listeSens3.addItem("Les 2");
+		listeSens4.addItem("Entrant");
+		listeSens4.addItem("Sortant");
+		listeSens4.addItem("Les 2");
+		c.gridx = 0;
+    	c.gridy = 0;
+		ensembleOptions.add(lien1, c);
+		c.gridx = 1;
+    	c.gridy = 0;
+		ensembleOptions.add(liste1, c);
+		c.gridx = 2;
+    	c.gridy = 0;
+		ensembleOptions.add(sens1, c);
+		c.gridx = 3;
+    	c.gridy = 0;
+		ensembleOptions.add(listeSens1, c);
+		c.gridx = 0;
+    	c.gridy = 1;
+		ensembleOptions.add(lien2, c);
+		c.gridx = 1;
+    	c.gridy = 1;
+		ensembleOptions.add(liste2, c);
+		c.gridx = 2;
+    	c.gridy = 1;
+		ensembleOptions.add(sens2, c);
+		c.gridx = 3;
+    	c.gridy = 1;
+		ensembleOptions.add(listeSens2, c);
+		c.gridx = 0;
+    	c.gridy = 2;
+		ensembleOptions.add(lien3, c);
+		c.gridx = 1;
+    	c.gridy = 2;
+		ensembleOptions.add(liste3, c);
+		c.gridx = 2;
+    	c.gridy = 2;
+		ensembleOptions.add(sens3, c);
+		c.gridx = 3;
+    	c.gridy = 2;
+		ensembleOptions.add(listeSens3, c);
+		c.gridx = 0;
+    	c.gridy = 3;
+		ensembleOptions.add(lien4, c);
+		c.gridx = 1;
+    	c.gridy = 3;
+		ensembleOptions.add(liste4, c);
+		c.gridx = 2;
+    	c.gridy = 3;
+    	ensembleOptions.add(sens4, c);
+    	c.gridx = 3;
+    	c.gridy = 3;
+    	ensembleOptions.add(listeSens4, c);
     	JLabel parcoursTexte = new JLabel("Parcours :");
-    	ensembleOptions.add(parcoursTexte);
+    	c.gridx = 4;
+    	c.gridy = 0;
+    	ensembleOptions.add(parcoursTexte, c);
     	final Choice parcours = new Choice();
     	parcours.addItem("Profondeur");
     	parcours.addItem("Largeur");
-    	ensembleOptions.add(parcours);
+    	c.gridx = 5;
+    	c.gridy = 0;
+    	ensembleOptions.add(parcours, c);
     	JLabel uniciteTexte = new JLabel("Unicité :");
-    	ensembleOptions.add(uniciteTexte);
+    	c.gridx = 4;
+    	c.gridy = 1;
+    	ensembleOptions.add(uniciteTexte, c);
     	final Choice unicite = new Choice();
     	unicite.addItem("Noeud global");
     	unicite.addItem("Relation globale");
-    	ensembleOptions.add(unicite);
+    	c.gridx = 5;
+    	c.gridy = 1;
+    	ensembleOptions.add(unicite, c);
     	JLabel niveauTexte = new JLabel("Niveau de parcours :");
-    	ensembleOptions.add(niveauTexte);
+    	c.gridx = 4;
+    	c.gridy = 2;
+    	ensembleOptions.add(niveauTexte, c);
     	final JTextField niveau = new JTextField();
     	niveau.setPreferredSize(new Dimension(30,28));
     	niveau.addKeyListener(new KeyListener(){
@@ -217,30 +307,17 @@ public class Interface {
 			public void keyPressed(KeyEvent arg0) {}
 			public void keyReleased(KeyEvent arg0) {}
     	});
-    	ensembleOptions.add(niveau);
-    	JLabel liensTexte = new JLabel("Liens :");
-    	ensembleOptions.add(liensTexte);
-    	Choice liens = new Choice();
-    	for 
-    	liens.addItem("Lien 1");
-    	liens.addItem("Lien 2");
-    	liens.addItem("Lien 3");
-    	ensembleOptions.add(liens);
-    	JLabel filtresTexte = new JLabel("Filtres :");
-    	ensembleOptions.add(filtresTexte);
-    	Choice filtres = new Choice();
-    	filtres.addItem("Filtre 1");
-    	filtres.addItem("Filtre 2");
-    	filtres.addItem("Filtre 3");
-    	ensembleOptions.add(filtres);
+    	c.gridx = 5;
+    	c.gridy = 2;
+    	ensembleOptions.add(niveau, c);
     	c.fill = GridBagConstraints.HORIZONTAL;
     	c.gridx = 0;
     	c.gridy = 2;
     	c.gridheight = GridBagConstraints.REMAINDER;
     	c.gridheight = 1;
-    	ensembleOptions.setVisible(false);
     	rechercheComplexe.add(ensembleOptions, c);
     	final JTextArea contenu2 = new JTextArea();
+    	contenu2.setEditable(false);
     	JButton lancerRechC = new JButton("Rechercher!");
     	lancerRechC.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0) {
@@ -253,8 +330,20 @@ public class Interface {
 				if (unicite.getSelectedItem().equals("Noeud Global"))
 					tunicite = TypeUnicite.NOEUD_GLOBAL;
 				else tunicite = TypeUnicite.RELATION_GLOBAL;
-				ArrayList<Noeud> result = new Recherche().recherche(g, aRech2.getText(), new ArrayList<Filtre>(), Integer.parseInt(niveau.getText()), trecherche, tunicite);
-				contenu2.setText(result.toString());
+				Filtre f1 = new Filtre(liste1.getSelectedItem());
+				Filtre f2 = new Filtre(liste2.getSelectedItem());
+				Filtre f3 = new Filtre(liste3.getSelectedItem());
+				Filtre f4 = new Filtre(liste4.getSelectedItem());
+				ArrayList<Filtre> listeFiltre = new ArrayList<Filtre>();
+				listeFiltre.add(f1);
+				listeFiltre.add(f2);
+				listeFiltre.add(f3);
+				listeFiltre.add(f4);
+				ArrayList<Noeud> result = new Recherche().recherche(g, aRech2.getText(), listeFiltre, Integer.parseInt(niveau.getText()), trecherche, tunicite);
+				if (result == null)
+					contenu2.setText("La recherche n'a pas pu aboutir : aucun résultat.");
+				else
+					contenu2.setText(result.toString());
 			}
   		});
     	c.fill = GridBagConstraints.HORIZONTAL;
@@ -269,7 +358,6 @@ public class Interface {
     	c.gridy = 3;
     	c.gridheight = GridBagConstraints.REMAINDER;
     	c.insets = new Insets(10,15,10,10);
-    	contenu2.add(contenu2);
     	rechercheComplexe.add(contenu2, c);
     	listeEcran.add(general, ECRANGENERAL);
     	listeEcran.add(rechercheSimple, ECRANRECHERCHESIMPLE);

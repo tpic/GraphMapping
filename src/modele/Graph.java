@@ -45,6 +45,18 @@ public class Graph {
 		}
 		return false;
 	}
+	
+	public ArrayList<String> getRelationsGraph(){
+		ArrayList<String> liste = new ArrayList<String>();
+		for (Noeud n : graph){
+			for (Relation r : n.getAllFlux()){
+				if (!liste.contains(r.getName()))
+					liste.add(r.getName());
+			}
+		}
+		return liste;
+		
+	}
 
 	public String toString() {
 		StringBuffer buff = new StringBuffer();
