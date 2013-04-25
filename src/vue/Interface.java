@@ -23,6 +23,7 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -44,6 +45,7 @@ public class Interface {
 	final static String ECRANGENERAL = "General";
     final static String ECRANRECHERCHESIMPLE = "RechSimple";
     final static String ECRANRECHERCHECOMPLEXE = "RechComplexe";
+    final static String ECRANAFFICHAGE = "AffichGraph";
     
     public void addComponentToPane(Container pane, final Graph g){
     	final JPanel listeEcran = new JPanel(new CardLayout());
@@ -64,8 +66,6 @@ public class Interface {
   		c.fill = GridBagConstraints.HORIZONTAL;
     	c.gridx = 0;
     	c.gridy = 1;
-    	c.gridheight = GridBagConstraints.REMAINDER;
-    	c.gridheight = 1;
     	c.insets = new Insets(10,15,0,0);
     	general.add(proposition, c);
   		JButton boutonRechercheSimple = new JButton("Recherche simple");
@@ -96,6 +96,17 @@ public class Interface {
     	c.gridheight = 1;
     	c.insets = new Insets(10,15,10,10);
    		general.add(boutonRechercheComplexe, c);
+   		JButton boutonAffichageGraphe = new JButton("Afficher graphe");
+   		boutonAffichageGraphe.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent arg0) {
+				CardLayout c5 = (CardLayout)(listeEcran.getLayout());
+				c5.show(listeEcran, ECRANAFFICHAGE);
+			}
+  		});
+   		c.gridx = 2;
+    	c.gridy = 2;
+    	c.insets = new Insets(10,15,10,10);
+    	general.add(boutonAffichageGraphe, c);
   			
   		// Ecran de recherche simple
     	JPanel rechercheSimple = new JPanel();
@@ -113,7 +124,7 @@ public class Interface {
 			}
   		});
     	rechercheSimple.add(retour, c);
-    	JLabel qRech = new JLabel("Veuillez entrer ce que vous recherchez :");
+    	JLabel qRech = new JLabel("Veuillez sélectionner ce que vous recherchez :");
     	c.fill = GridBagConstraints.HORIZONTAL;
     	c.gridx = 0;
     	c.gridy = 1;
@@ -121,8 +132,9 @@ public class Interface {
     	c.gridheight = 1;
     	c.insets = new Insets(10,15,0,0);
     	rechercheSimple.add(qRech, c);
-    	final JTextField aRech = new JTextField();
-    	aRech.setPreferredSize(new Dimension(130,28));
+    	final Choice aRech = new Choice();
+    	for (Noeud n : g.getGraph())
+    		aRech.addItem(n.getName());
     	c.fill = GridBagConstraints.HORIZONTAL;
     	c.gridx = 1;
     	c.gridy = 1;
@@ -135,7 +147,7 @@ public class Interface {
     	lancerRechS.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0) {
 				// Ajout du code pour la recherche manuelle
-				new RechercheManuelle().executeSearchInterface(g, aRech.getText(), contenu);
+				new RechercheManuelle().executeSearchInterface(g, aRech.getSelectedItem(), contenu);
 			}
   		});
     	c.fill = GridBagConstraints.HORIZONTAL;
@@ -170,7 +182,7 @@ public class Interface {
 			}
   		});
     	rechercheComplexe.add(retour2, c);
-    	JLabel qRech2 = new JLabel("Veuillez entrer ce que vous recherchez :");
+    	JLabel qRech2 = new JLabel("Veuillez sélectionner ce que vous recherchez :");
     	c.fill = GridBagConstraints.HORIZONTAL;
     	c.gridx = 0;
     	c.gridy = 1;
@@ -178,8 +190,9 @@ public class Interface {
     	c.gridheight = 1;
     	c.insets = new Insets(10,15,0,0);
     	rechercheComplexe.add(qRech2, c);
-    	final JTextField aRech2 = new JTextField();
-    	aRech2.setPreferredSize(new Dimension(130,28));
+    	final Choice aRech2 = new Choice();
+    	for (Noeud n : g.getGraph())
+    		aRech2.addItem(n.getName());
     	c.fill = GridBagConstraints.HORIZONTAL;
     	c.gridx = 1;
     	c.gridy = 1;
@@ -339,7 +352,7 @@ public class Interface {
 				listeFiltre.add(f2);
 				listeFiltre.add(f3);
 				listeFiltre.add(f4);
-				ArrayList<Noeud> result = new Recherche().recherche(g, aRech2.getText(), listeFiltre, Integer.parseInt(niveau.getText()), trecherche, tunicite);
+				ArrayList<Noeud> result = new Recherche().recherche(g, aRech2.getSelectedItem(), listeFiltre, Integer.parseInt(niveau.getText()), trecherche, tunicite);
 				if (result == null)
 					contenu2.setText("La recherche n'a pas pu aboutir : aucun résultat.");
 				else
@@ -359,9 +372,51 @@ public class Interface {
     	c.gridheight = GridBagConstraints.REMAINDER;
     	c.insets = new Insets(10,15,10,10);
     	rechercheComplexe.add(contenu2, c);
+    	
+    	// Ecran affichage
+    	JPanel affichageGraphe = new JPanel();
+    	affichageGraphe.setLayout(new GridBagLayout());
+    	JButton retour3 = new JButton("Retour au menu");
+    	retour3.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent arg0) {
+				CardLayout c4 = (CardLayout)(listeEcran.getLayout());
+				c4.show(listeEcran, ECRANGENERAL);
+			}
+  		});
+    	c.gridx = c.gridy = 0;
+    	c.fill = GridBagConstraints.HORIZONTAL;
+    	c.gridheight = GridBagConstraints.REMAINDER;
+    	c.gridheight = 1;
+    	c.insets = new Insets(10,15,0,0);
+    	affichageGraphe.add(retour3, c);
+    	JLabel affichTexte = new JLabel("Vous pouvez visualiser le graphe en cliquant : ");
+    	final JTextArea contenu3 = new JTextArea();
+    	JButton affichBouton = new JButton("Ici!");
+    	affichBouton.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent arg0) {
+				String grapheTab = "";
+				for (Noeud n : g.getGraph())
+					grapheTab += n.toString()+"\n";
+				contenu3.setText(grapheTab);
+			}
+  		});
+    	contenu3.setEditable(false);
+    	contenu3.setPreferredSize(new Dimension (800, 500));
+    	c.gridx = 0;
+    	c.gridy = 1;
+    	affichageGraphe.add(affichTexte, c);
+    	c.gridx = 1;
+    	c.gridy = 1;
+    	affichageGraphe.add(affichBouton, c);
+    	c.gridx = 0;
+    	c.gridy = 2;
+    	affichageGraphe.add(contenu3, c);
+    	
+    	
     	listeEcran.add(general, ECRANGENERAL);
     	listeEcran.add(rechercheSimple, ECRANRECHERCHESIMPLE);
     	listeEcran.add(rechercheComplexe, ECRANRECHERCHECOMPLEXE);
+    	listeEcran.add(affichageGraphe, ECRANAFFICHAGE);
     	
     	pane.add(listeEcran, BorderLayout.CENTER);
     }
@@ -369,7 +424,7 @@ public class Interface {
 	public static void main (String[] args) throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException{
 		UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
 		final Graph g = new Graph();
-		JFrame frame = new JFrame("Graphe réseau social");
+		final JFrame frame = new JFrame("Graphe réseau social");
 		JMenuBar menu = new JMenuBar();
 		JMenu fichier = new JMenu("Fichier");
 		JMenuItem ouvrir = new JMenuItem("Ouvrir");

@@ -5,6 +5,10 @@ import java.util.ArrayList;
 public class Graph {
 	private ArrayList<Noeud> graph;
 
+	public ArrayList<Noeud> getGraph() {
+		return graph;
+	}
+
 	public Graph() {
 		this.graph = new ArrayList<Noeud>();
 	}

@@ -138,7 +138,7 @@ public class Noeud {
 	}
 
 	public String toString() {
-		StringBuffer buff = new StringBuffer(this.name); // + "\n");
+		StringBuffer buff = new StringBuffer(this.name);// + "\n");
 		/*for (String s : flux.keySet()) {
 			buff.append("\t " + s + "\n");
 			for (HashMap<String, ArrayList<Relation>> hm : this.flux.get(s)) {
