@@ -282,7 +282,11 @@ public class RechercheTest extends TestCase {
 		ArrayList<Noeud> listNoeud = Recherche.recherche(g, nomNoeud, listFiltres, profondeur,
 				tRecherche, tUnicite);
 
-		System.out.println(" Resultat recherche : { " + listNoeud + " }\n");
+		System.out.println(" Resultat recherche : { ");
+		for(Noeud n : listNoeud){
+			System.out.print(n.getName()+" ");
+		}
+		System.out.print(" }");
 
 		assertEquals(listNomAttendu.size(), listNoeud.size());
 		for (int i = 0; i < listNomAttendu.size(); i++) {

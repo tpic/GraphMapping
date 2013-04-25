@@ -17,14 +17,12 @@ import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -57,7 +55,7 @@ public class Interface {
     	general.setLayout(new GridBagLayout());
     	GridBagConstraints c = new GridBagConstraints();
     
-   		JLabel titre = new JLabel("Bienvenue dans la magnifique application de Génie Logiciel!");
+   		JLabel titre = new JLabel("Bienvenue dans l'application de Génie Logiciel!");
    		c.fill = GridBagConstraints.HORIZONTAL;
     	c.gridx = c.gridy = 0;
     	c.gridheight = GridBagConstraints.REMAINDER;
@@ -144,6 +142,7 @@ public class Interface {
     	c.gridheight = 1;
     	rechercheSimple.add(aRech, c);
     	final JTextArea contenu = new JTextArea("Résultat : ");
+    	JScrollPane contenuScroll = new JScrollPane(contenu);
     	contenu.setEditable(false);
     	JButton lancerRechS = new JButton("Rechercher!");
     	lancerRechS.addActionListener(new ActionListener(){
@@ -159,7 +158,7 @@ public class Interface {
     	c.gridheight = 1;
     	c.insets = new Insets(10,10,0,20);
     	rechercheSimple.add(lancerRechS, c);
-    	contenu.setPreferredSize(new Dimension (800, 500));
+    	contenuScroll.setPreferredSize(new Dimension (800, 500));
     	c.fill = GridBagConstraints.HORIZONTAL;
     	c.gridx = 0;
     	c.gridy = 2;
@@ -323,6 +322,7 @@ public class Interface {
     	c.gridy = 2;
     	ensembleOptions.add(niveauTexte, c);
     	final JTextField niveau = new JTextField();
+    	niveau.setText(""+Recherche.ALL_GRAPH);
     	niveau.setPreferredSize(new Dimension(30,28));
     	niveau.addKeyListener(new KeyListener(){
     		public void keyTyped(KeyEvent e) {
@@ -344,6 +344,7 @@ public class Interface {
     	c.gridheight = 1;
     	rechercheComplexe.add(ensembleOptions, c);
     	final JTextArea contenu2 = new JTextArea();
+    	JScrollPane contenuScroll2 = new JScrollPane(contenu2);
     	contenu2.setEditable(false);
     	JButton lancerRechC = new JButton("Rechercher!");
     	lancerRechC.addActionListener(new ActionListener(){
@@ -358,12 +359,12 @@ public class Interface {
 					tunicite = TypeUnicite.NOEUD_GLOBAL;
 				else tunicite = TypeUnicite.RELATION_GLOBAL;
 				ArrayList<Filtre> listeFiltre = new ArrayList<Filtre>();
-				if (listeSens1.getSelectedItem() == "Entrant"){
+				if (listeSens1.getSelectedItem().equals("Entrant")){
 					Filtre f1 = new Filtre(liste1.getSelectedItem(), Sens.IN);
 					listeFiltre.add(f1);
 				}
 				else {
-					if (listeSens1.getSelectedItem() == "Sortant"){
+					if (listeSens1.getSelectedItem().equals("Sortant")){
 						Filtre f1 = new Filtre(liste1.getSelectedItem(), Sens.OUT);
 						listeFiltre.add(f1);
 					}
@@ -373,58 +374,69 @@ public class Interface {
 					}
 				}
 				if (filtreN2.isSelected()){
-					if (listeSens2.getSelectedItem() == "Entrant"){
-						Filtre f2 = new Filtre(liste1.getSelectedItem(), Sens.IN);
+					if (listeSens2.getSelectedItem().equals("Entrant")){
+						Filtre f2 = new Filtre(liste2.getSelectedItem(), Sens.IN);
 						listeFiltre.add(f2);
 					}
 					else {
-						if (listeSens2.getSelectedItem() == "Sortant"){
-							Filtre f2 = new Filtre(liste1.getSelectedItem(), Sens.OUT);
+						if (listeSens2.getSelectedItem().equals("Sortant")){
+							Filtre f2 = new Filtre(liste2.getSelectedItem(), Sens.OUT);
 							listeFiltre.add(f2);
 						}
 						else {
-							Filtre f2 = new Filtre(liste1.getSelectedItem(), Sens.INOUT);
+							Filtre f2 = new Filtre(liste2.getSelectedItem(), Sens.INOUT);
 							listeFiltre.add(f2);
 						}
 					}
 				}
 				if (filtreN3.isSelected()){
-					if (listeSens3.getSelectedItem() == "Entrant"){
-						Filtre f3 = new Filtre(liste1.getSelectedItem(), Sens.IN);
+					if (listeSens3.getSelectedItem().equals("Entrant")){
+						Filtre f3 = new Filtre(liste3.getSelectedItem(), Sens.IN);
 						listeFiltre.add(f3);
 					}
 					else {
-						if (listeSens3.getSelectedItem() == "Sortant"){
-							Filtre f3 = new Filtre(liste1.getSelectedItem(), Sens.OUT);
+						if (listeSens3.getSelectedItem().equals("Sortant")){
+							Filtre f3 = new Filtre(liste3.getSelectedItem(), Sens.OUT);
 							listeFiltre.add(f3);
 						}
 						else {
-							Filtre f3 = new Filtre(liste1.getSelectedItem(), Sens.INOUT);
+							Filtre f3 = new Filtre(liste3.getSelectedItem(), Sens.INOUT);
 							listeFiltre.add(f3);
 						}
 					}
 				}
 				if (filtreN4.isSelected()){
-					if (listeSens4.getSelectedItem() == "Entrant"){
-						Filtre f4 = new Filtre(liste1.getSelectedItem(), Sens.IN);
+					if (listeSens4.getSelectedItem().equals("Entrant")){
+						Filtre f4 = new Filtre(liste4.getSelectedItem(), Sens.IN);
 						listeFiltre.add(f4);
 					}
 					else {
-						if (listeSens1.getSelectedItem() == "Sortant"){
-							Filtre f4 = new Filtre(liste1.getSelectedItem(), Sens.OUT);
+						if (listeSens4.getSelectedItem().equals("Sortant")){
+							Filtre f4 = new Filtre(liste4.getSelectedItem(), Sens.OUT);
 							listeFiltre.add(f4);
 						}
 						else {
-							Filtre f4 = new Filtre(liste1.getSelectedItem(), Sens.INOUT);
+							Filtre f4 = new Filtre(liste4.getSelectedItem(), Sens.INOUT);
 							listeFiltre.add(f4);
 						}
 					}
 				}
-				ArrayList<Noeud> result = new Recherche().recherche(g, aRech2.getSelectedItem(), listeFiltre, Integer.parseInt(niveau.getText()), trecherche, tunicite);
+				int niv;
+				try {
+					 niv = Integer.parseInt(niveau.getText());
+				}catch (Exception e){
+					niv = 0;
+				}
+				ArrayList<Noeud> result = Recherche.recherche(g, aRech2.getSelectedItem(), listeFiltre, niv, trecherche, tunicite);
 				if (result == null)
 					contenu2.setText("La recherche n'a pas pu aboutir : aucun résultat.");
-				else
-					contenu2.setText(result.toString());
+				else {
+					StringBuffer res = new StringBuffer();
+					for (Noeud n : result){
+						res.append(n.getName()+"\n");
+					}
+					contenu2.setText(res.toString());
+				}
 			}
   		});
     	c.fill = GridBagConstraints.HORIZONTAL;
@@ -433,7 +445,7 @@ public class Interface {
     	c.gridheight = GridBagConstraints.REMAINDER;
     	c.gridheight = 1;
     	rechercheComplexe.add(lancerRechC, c);
-    	contenu2.setPreferredSize(new Dimension (800, 500));
+    	contenuScroll2.setPreferredSize(new Dimension (800, 500));
     	c.fill = GridBagConstraints.HORIZONTAL;
     	c.gridx = 0;
     	c.gridy = 3;
@@ -459,6 +471,7 @@ public class Interface {
     	affichageGraphe.add(retour3, c);
     	JLabel affichTexte = new JLabel("Vous pouvez visualiser le graphe en cliquant : ");
     	final JTextArea contenu3 = new JTextArea();
+    	JScrollPane contenuScroll3 = new JScrollPane(contenu3);
     	JButton affichBouton = new JButton("Ici!");
     	affichBouton.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0) {
@@ -469,7 +482,7 @@ public class Interface {
 			}
   		});
     	contenu3.setEditable(false);
-    	contenu3.setPreferredSize(new Dimension (800, 500));
+    	contenuScroll3.setPreferredSize(new Dimension (800, 500));
     	c.gridx = 0;
     	c.gridy = 1;
     	affichageGraphe.add(affichTexte, c);
@@ -478,7 +491,7 @@ public class Interface {
     	affichageGraphe.add(affichBouton, c);
     	c.gridx = 0;
     	c.gridy = 2;
-    	affichageGraphe.add(contenu3, c);
+    	affichageGraphe.add(contenuScroll3, c);
     	
     	
     	listeEcran.add(general, ECRANGENERAL);
@@ -495,44 +508,30 @@ public class Interface {
 		final JFrame frame = new JFrame("Graphe réseau social");
 		JMenuBar menu = new JMenuBar();
 		JMenu fichier = new JMenu("Fichier");
-		JMenuItem ouvrir = new JMenuItem("Ouvrir");
-		ouvrir.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent arg0) {
-				String nomFichier = "";
-				JFileChooser chooser = new JFileChooser();
-				chooser.setApproveButtonText("Choisir le fichier de données");
-				if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION){	
-					nomFichier = chooser.getSelectedFile().getName(); 
-				}
-				Parser p = new Parser(g);
-				p.verifFichier(nomFichier);
-			}
-		});
 		JMenuItem fermer = new JMenuItem("Fermer l'application");
-		fichier.add(ouvrir);
+		fermer.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent arg0) {
+				frame.dispose();
+			}
+  		});
 		fichier.addSeparator();
 		fichier.add(fermer);
-		JMenu aide = new JMenu("Aide");
-		JMenuItem guide = new JMenuItem("Guide de l'application");
-		JMenuItem aPropos = new JMenuItem("A propos de");
-		aide.add(guide);
-		aide.add(aPropos);
 		menu.add(fichier);
-		menu.add(aide);
 		frame.setJMenuBar(menu);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		String nomFichier = "";
 		JFileChooser chooser = new JFileChooser();
 		chooser.setApproveButtonText("Choisir le fichier de données");
+		while (nomFichier == ""){
 		if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION){	
-			nomFichier = chooser.getSelectedFile().getName(); 
+			nomFichier = chooser.getSelectedFile().getName();
+		}
 		}
 		Parser p = new Parser(g);
 		p.verifFichier(nomFichier);
 		Interface appli = new Interface();
 		appli.addComponentToPane(frame.getContentPane(), g);
-		
 		frame.pack();
 		frame.setVisible(true);
 	}

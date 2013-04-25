@@ -83,40 +83,11 @@ public class RechercheManuelle {
 	}
 	
 	public void executeSearchInterface(Graph g, String nomNoeud, JTextArea panel){
-		int choix = -1;
 		Noeud n = g.getNoeud(nomNoeud);
 		String res = "";
-		while (choix != 0) {
 			if (n != null) {
-				ArrayList<Relation> listRelation = n.getFluxSortant();
-				res +="'" + n.getName() + "', relations sortantes : \n";
-				int indRelation = 0;
-				ArrayList<String> listeNomRelation = new ArrayList<String>();
-				for (Relation r : listRelation) {
-					if (!listeNomRelation.contains(r.getName())) {
-						indRelation++;
-						listeNomRelation.add(r.getName());
-						res+="\t" + indRelation + " : " + r.getName()+"\n";
-						String relationChoisie = listeNomRelation.get(indRelation - 1);
-						ArrayList<Noeud> listNoeud = new ArrayList<Noeud>();
-						int indNoeud = 0;
-						for (Relation r1 : listRelation) {
-							if (r1.getName().equalsIgnoreCase(relationChoisie)) {
-								indNoeud++;
-								listNoeud.add(r1.getNoeudDestination());
-								res+=("\t\t" + indNoeud + " : "
-										+ r1.getNoeudDestination().getName()+"\n");
-							}
-						}
-						listNoeud.add(n);
-					}
-				}
-				choix = 0;
-			} else {
-				res = "Désolé mais le noeud '" + nomNoeud + "' n'existe pas.";
-				choix = 0;
+				res = n.toString();
 			}
-		}
 		panel.setText(res);
 	}
 
