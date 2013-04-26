@@ -80,9 +80,9 @@ public class Relation {
 		return reverse;
 	}
 
-	public boolean estDuTypes(ArrayList<String> listLiens) {
-		for (String s : listLiens) {
-			if (this.name.equalsIgnoreCase(s)) {
+	public boolean estDuTypes(ArrayList<Filtre> listFiltres) {
+		for (Filtre f : listFiltres) {
+			if (this.name.equalsIgnoreCase(f.getNomFiltre())) {
 				return true;
 			}
 		}
@@ -107,7 +107,6 @@ public class Relation {
 
 	public String toString() {
 		StringBuffer buf = new StringBuffer();
-		buf.append(this.noeudS + " : " + this.name);
 		buf.append(" : [");
 		for (String s : this.mapAttribut.keySet()) {
 			buf.append(s + " -> '");

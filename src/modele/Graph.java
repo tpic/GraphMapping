@@ -5,6 +5,10 @@ import java.util.ArrayList;
 public class Graph {
 	private ArrayList<Noeud> graph;
 
+	public ArrayList<Noeud> getGraph() {
+		return graph;
+	}
+
 	public Graph() {
 		this.graph = new ArrayList<Noeud>();
 	}
@@ -44,6 +48,18 @@ public class Graph {
 			}
 		}
 		return false;
+	}
+	
+	public ArrayList<String> getRelationsGraph(){
+		ArrayList<String> liste = new ArrayList<String>();
+		for (Noeud n : graph){
+			for (Relation r : n.getAllFlux()){
+				if (!liste.contains(r.getName()))
+					liste.add(r.getName());
+			}
+		}
+		return liste;
+		
 	}
 
 	public String toString() {

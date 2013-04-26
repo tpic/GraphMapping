@@ -38,12 +38,6 @@ public class StructureTest extends TestCase {
 		assertEquals(n.verifDoublon(r1), true);
 	}
 
-	/*
-	 * Test des méthodes de la classe Relation
-	 */
-	public void testAddAttribut() {
-
-	}
 
 	public static void main(String[] args) {
 		// Invoke JUnit on the class:
