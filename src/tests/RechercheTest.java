@@ -1,5 +1,6 @@
 package tests;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -262,7 +263,13 @@ public class RechercheTest extends TestCase {
 	public RechercheTest(String nomFichier, String nomNoeud, ArrayList<Filtre> listFiltres,
 			int profondeur, TypeRecherche tRecherche, TypeUnicite tUnicite,
 			ArrayList<String> listNomAttendu) {
-		p.verifFichier(nomFichier);
+		try {
+			p.verifFichier(nomFichier);
+		} catch (IOException e) {
+			System.out.println("Erreur lors du chargement du fichier");
+			System.out.println(e.getMessage());
+			System.exit(0);
+		}
 		this.nomNoeud = nomNoeud;
 		this.listFiltres = listFiltres;
 		this.profondeur = profondeur;
@@ -283,8 +290,8 @@ public class RechercheTest extends TestCase {
 				tRecherche, tUnicite);
 
 		System.out.println(" Resultat recherche : { ");
-		for(Noeud n : listNoeud){
-			System.out.print(n.getName()+" ");
+		for (Noeud n : listNoeud) {
+			System.out.print(n.getName() + " ");
 		}
 		System.out.print(" }");
 
