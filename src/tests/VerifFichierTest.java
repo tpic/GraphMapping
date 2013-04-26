@@ -1,6 +1,9 @@
 package tests;
 
 import static org.junit.Assert.assertTrue;
+
+import java.io.IOException;
+
 import modele.Graph;
 import modele.Parser;
 
@@ -13,7 +16,11 @@ public class VerifFichierTest {
 	@Test
 	public void testVerifFichier() {
 		String file = "donnees.txt";
-		assertTrue(p.verifFichier(file));
+		try {
+			assertTrue(p.verifFichier(file));
+		} catch (IOException e) {
+			// TODO
+		}
 	}
 
 }

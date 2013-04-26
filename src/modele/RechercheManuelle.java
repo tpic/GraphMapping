@@ -3,6 +3,8 @@ package modele;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import javax.swing.JTextArea;
+
 public class RechercheManuelle {
 
 	public ArrayList<Noeud> executeSearch(Graph g, String nomNoeud) {
@@ -78,6 +80,15 @@ public class RechercheManuelle {
 			}
 		}
 		return null;
+	}
+	
+	public void executeSearchInterface(Graph g, String nomNoeud, JTextArea panel){
+		Noeud n = g.getNoeud(nomNoeud);
+		String res = "";
+			if (n != null) {
+				res = n.toString();
+			}
+		panel.setText(res);
 	}
 
 	public static void parcoursManuel(Graph g, String nomNoeud) {

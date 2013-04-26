@@ -49,15 +49,7 @@ public class StructureTest extends TestCase {
 		Noeud n2 = g.addOrGetNoeud("Anna");
 		Sens sens = Sens.INOUT;
 		g.addRelation(n1, new Relation("friend", n1, n2, sens), n2);
-		assertEquals(true,
-				n1.verifDoublon(new Relation("friend", n1, n2, sens)));
-	}
-
-	/*
-	 * Test des méthodes de la classe Relation
-	 */
-	public void testAddAttribut() {
-
+		assertEquals(true, n1.verifDoublon(new Relation("friend", n1, n2, sens)));
 	}
 
 	public static void main(String[] args) {

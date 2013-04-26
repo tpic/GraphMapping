@@ -1,5 +1,6 @@
 package tests;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -259,8 +260,27 @@ public class RechercheTest extends TestCase {
 		return Arrays.asList(data);
 	}
 
+	public RechercheTest(String nomFichier, String nomNoeud, ArrayList<Filtre> listFiltres,
+			int profondeur, TypeRecherche tRecherche, TypeUnicite tUnicite,
+			ArrayList<String> listNomAttendu) {
+		try {
+			p.verifFichier(nomFichier);
+		} catch (IOException e) {
+			System.out.println("Erreur lors du chargement du fichier.");
+			System.out.println(e.getMessage());
+			System.exit(0);
+		}
+		this.nomNoeud = nomNoeud;
+		this.listFiltres = listFiltres;
+		this.profondeur = profondeur;
+		this.tRecherche = tRecherche;
+		this.tUnicite = tUnicite;
+		this.listNomAttendu = listNomAttendu;
+	}
+
 	@Test
 	public void testRecherche() {
+
 		System.out.println("Noeud de depart : " + nomNoeud + "\n Filtres { " + listFiltres + " }"
 				+ "\n Prodeur de recherche : " + profondeur + "\n Type de recherche : "
 				+ tRecherche + "\n Unicite : " + tUnicite + "\n Resultat attendu   : { "
@@ -269,12 +289,15 @@ public class RechercheTest extends TestCase {
 		ArrayList<Noeud> listNoeud = Recherche.recherche(g, nomNoeud, listFiltres, profondeur,
 				tRecherche, tUnicite);
 
-		System.out.println(" Resultat recherche : { " + listNoeud + " }\n");
+		System.out.println(" Resultat recherche : { ");
+		for (Noeud n : listNoeud) {
+			System.out.print(n.getName() + " ");
+		}
+		System.out.print(" }");
 
 		assertEquals(listNomAttendu.size(), listNoeud.size());
 		for (int i = 0; i < listNomAttendu.size(); i++) {
 			assertTrue(listNomAttendu.contains(listNoeud.get(i).getName()));
 		}
-
 	}
 }

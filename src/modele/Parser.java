@@ -2,7 +2,6 @@ package modele;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -23,31 +22,20 @@ public class Parser {
 	 * @param nomFichier
 	 *            : le fichier à tester
 	 * @return
+	 * @throws IOException
 	 */
-	public boolean verifFichier(String nomFichier) {
+	public boolean verifFichier(String nomFichier) throws IOException {
 
 		String ligne = "";
 
-		try {
-			BufferedReader br = new BufferedReader(new FileReader(new File(nomFichier)));
-			while ((ligne = br.readLine()) != null) {
-				if (verifLigne(ligne)) {
-					splitLines(ligne);
-				} else {
-					// System.out.println(ligne);
-				}
+		BufferedReader br = new BufferedReader(new FileReader(new File(nomFichier)));
+		while ((ligne = br.readLine()) != null) {
+			if (verifLigne(ligne)) {
+				splitLines(ligne);
 			}
-			br.close();
-			return true;
-
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-			return false;
-		} catch (IOException e) {
-			e.printStackTrace();
-			return false;
 		}
-
+		br.close();
+		return true;
 	}
 
 	/**
